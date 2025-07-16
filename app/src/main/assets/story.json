@@ -1,0 +1,290 @@
+[
+    {
+        "id": 0,
+        "text": "You are a great adventurer, known for…nothing yet. But you need to find some way to pay for food besides performing tricks on the street. Finally, after a persistent number of applications to the Hero’s Guild, you’ve been approved for your first adventure!",
+        "choice_1_text": "Awesome!",
+        "choice_1_target": 1,
+        "choice_2_text": "Okay.",
+        "choice_2_target": 1
+    },
+    {
+        "id": 1,
+        "text": "The issuer of your first quest is the King himself! He summons you to the palace to give you the details.",
+        "choice_1_text": "To the palace!",
+        "choice_1_target": 2,
+        "choice_2_text": "Okay.",
+        "choice_2_target": 2
+    },
+    {
+        "id": 2,
+        "text": "The King informs you that a royal carriage transporting goods was intercepted by bandits on the way to the palace. No one was seriously harmed, but the Queen’s precious gemstone was stolen. He wants you to find and retrieve it.",
+        "choice_1_text": "Let’s go!",
+        "choice_1_target": 3,
+        "choice_2_text": "No thanks.",
+        "choice_2_target": 25
+    },
+    {
+        "id": 3,
+        "text": "You begin your journey into the jungle, starting at the scene of the bandit attack–a spot down the road surrounded by nothing but towering foliage and echoing sounds of wildlife. Where will you start?",
+        "choice_1_text": "Examine tracks on the road.",
+        "choice_1_target": 101,
+        "choice_2_text": "Look in bushes on the side of the road.",
+        "choice_2_target": 4
+    },
+    {
+        "id": 4,
+        "text": "Inside the bush is a handkerchief with a skull on it. This is the clear symbol of the Jungle Pirates, a small group of bandits who take advantage of the high branches of the jungle to catch passing carriages off guard.",
+        "choice_1_text": "Pocket the handkerchief.",
+        "choice_1_target": 5,
+        "choice_2_text": "Leave it.",
+        "choice_2_target": 13
+    },
+    {
+        "id": 5,
+        "text": "You pocket the handkerchief and venture farther into the jungle. After walking for a while, you almost step into a small river, rushing quickly through the underbrush at a level where it’s hidden by foliage. It’s not very wide, but it is fast.",
+        "choice_1_text": "Jump across it.",
+        "choice_1_target": 6,
+        "choice_2_text": "Cross using a nearby log.",
+        "choice_2_target": 102
+    },
+    {
+        "id": 6,
+        "text": "You come across a sheer cliff, with a giant waterfall crashing down into an obscuring cloud of mist far, far down below. You can see the tops of trees in the distance, but it’s impossible to see what else is down there, or how far down it really goes.",
+        "choice_1_text": "Jump!",
+        "choice_1_target": 103,
+        "choice_2_text": "Look around.",
+        "choice_2_target": 7
+    },
+    {
+        "id": 7,
+        "text": "There’s a vine hung up to the side, caught securely between two trees. You have a knife in your pocket–maybe you could cut it and use it for something?",
+        "choice_1_text": "Cut to the left.",
+        "choice_1_target": 8,
+        "choice_2_text": "Cut to the right.",
+        "choice_2_target": 19
+    },
+    {
+        "id": 8,
+        "text": "After cutting it, you grab onto the vine and swing over the edge of the cliff–only for it to slip out of your hands, sending you plummeting to your death.",
+        "choice_1_text": "AHHHHH!",
+        "choice_1_target": 104,
+        "choice_2_text": "Ahh?",
+        "choice_2_target": 9
+    },
+    {
+        "id": 9,
+        "text": "You wake up inside a cave, with the distant sounds of the waterfall crashing down outside. In front of you is a dragon as tall as the trees outside, if not taller. Her long neck towers over you as she regards you with something akin to amusement. Behind her is a giant pile of treasure–on the top is the Queen’s gem!",
+        "choice_1_text": "Greet the dragon.",
+        "choice_1_target": 10,
+        "choice_2_text": "Fight the dragon.",
+        "choice_2_target": 20
+    },
+    {
+        "id": 10,
+        "text": "The dragon ignores your greeting, instead taking notice of the handkerchief sticking out of your pocket. Her amusement turns to bemusement. “One of the bandits? You’re here to take my treasure?”",
+        "choice_1_text": "Yes.",
+        "choice_1_target": 11,
+        "choice_2_text": "No.",
+        "choice_2_target": 105
+    },
+    {
+        "id": 11,
+        "text": "“I admire your honesty,” the dragon says, “so I will allow you to take one of my treasures. I only ask that you keep your grimy paws away from my precious wooden chest.”",
+        "choice_1_text": "Take the Queen’s gem.",
+        "choice_1_target": 12,
+        "choice_2_text": "Look inside the chest.",
+        "choice_2_target": 106
+    },
+    {
+        "id": 12,
+        "text": "You have acquired the Queen’s precious gem! The dragon shows you a tunnel which exits just beside a section of the road leading back to the palace.",
+        "choice_1_text": "Walk on the left roadside.",
+        "choice_1_target": 26,
+        "choice_2_text": "Walk on the right roadside.",
+        "choice_2_target": 107
+    },
+    {
+        "id": 13,
+        "text": "Above head, the canopy acts like a speckled blanket, obscuring the sunlight and creating strange patterns on the jungle floor.",
+        "choice_1_text": "Look up.",
+        "choice_1_target": 14,
+        "choice_2_text": "Keep walking.",
+        "choice_2_target": 23
+    },
+    {
+        "id": 14,
+        "text": "As you look up, you notice bandits scattered throughout the trees. They think about robbing you, but they see your sad appearance and decide it’s not worth the effort. There’s a tunnel nearby, as well as the sound of rushing water.",
+        "choice_1_text": "Keep walking.",
+        "choice_1_target": 108,
+        "choice_2_text": "Enter the tunnel.",
+        "choice_2_target": 15
+    },
+    {
+        "id": 15,
+        "text": "The tunnel leads into a large cave behind a waterfall. Inside is a giant, sleeping dragon, with a large treasure pile behind it. At the top of the pile is…the Queen’s gem!",
+        "choice_1_text": "Go for the gem.",
+        "choice_1_target": 16,
+        "choice_2_text": "Ask the dragon for the gem.",
+        "choice_2_target": 109
+    },
+    {
+        "id": 16,
+        "text": "With your incredibly clumsy feet and your (nonexistent) climbing skill, you somehow manage to climb up to the top of the pile and grab the Queen’s gem. The dragon must be a deep sleeper to– Wait, she’s awake! She hasn’t noticed you yet.",
+        "choice_1_text": "Gather extra treasures.",
+        "choice_1_target": 110,
+        "choice_2_text": "Get out of there!",
+        "choice_2_target": 17
+    },
+    {
+        "id": 17,
+        "text": "You made it out through the tunnel you came in from! However, there are still bandits in the trees, and now they can see the gem that was supposed to be theirs.",
+        "choice_1_text": "RUN!",
+        "choice_1_target": 111,
+        "choice_2_text": "Walk slowly.",
+        "choice_2_target": 18
+    },
+    {
+        "id": 18,
+        "text": "The bandits must be more attracted to fast movements, because somehow, walking slowly works. You manage to make your way back to the road. But…you have such a precious, rare gem now in your possession. What will you do with it?",
+        "choice_1_text": "Return it to the palace.",
+        "choice_1_target": 26,
+        "choice_2_text": "Keep it and flee the kingdom.",
+        "choice_2_target": 27
+    },
+    {
+        "id": 19,
+        "text": "You cut the vine, and the force of it snaps up towards the tree like a whip, hitting a bandit that was crouching up in one of the branches. The bandits were going to leave you alone, at first, but now they had been personally attacked.",
+        "choice_1_text": "Fight!",
+        "choice_1_target": 112,
+        "choice_2_text": "Run!",
+        "choice_2_target": 113
+    },
+    {
+        "id": 20,
+        "text": "The dragon laughs when you brandish your measly knife. “Bold, to try to attack me with that little thing. I think I’ll just keep you. It gets boring here sometimes. You’ll be good for entertainment.”",
+        "choice_1_text": "Run!",
+        "choice_1_target": 114,
+        "choice_2_text": "Stay?",
+        "choice_2_target": 21
+    },
+    {
+        "id": 21,
+        "text": "You wait in the cave until the dragon falls asleep, and then you explore. Aside from the Queen’s gem, there’s also a giant trident buried in some gold coins.",
+        "choice_1_text": "Grab the gem and run!",
+        "choice_1_target": 115,
+        "choice_2_text": "Grab the trident and attack!",
+        "choice_2_target": 22
+    },
+    {
+        "id": 22,
+        "text": "With a roar, the dragon is slain by the trident in one fell swoop. But now that the dragon is dead, the bandits have immediately caught wind and are rushing in to take the treasures!",
+        "choice_1_text": "Grab the gem!",
+        "choice_1_target": 28,
+        "choice_2_text": "Attack the bandits!",
+        "choice_2_target": 116
+    },
+    {
+        "id": 23,
+        "text": "Bandits descend from the treetops, stopping you in your path. Seeing you have nothing of value, however, they quickly lose interest. But you have the chance to try and get back the gem!",
+        "choice_1_text": "Ask about the gem.",
+        "choice_1_target": 24,
+        "choice_2_text": "Fight them for the gem.",
+        "choice_2_target": 117
+    },
+    {
+        "id": 24,
+        "text": "When you ask the bandits about the gem, they admit they lost it to the claws of a dragon which lives nearby in a cave, which can be accessed through a tunnel. They don’t think risking everything against a dragon is worth it, even for a gem that size.",
+        "choice_1_text": "Wish them well and continue on.",
+        "choice_1_target": 118,
+        "choice_2_text": "Go through the tunnel.",
+        "choice_2_target": 15
+    },
+    {
+        "id": 25,
+        "text": "YOU WIN! You did it! You turned down your first ever opportunity at riches and glory! Congrats on meeting the King, I guess."
+    },
+    {
+        "id": 26,
+        "text": "YOU WIN! You return safely to the palace, delivering the gem to the Queen. The King is pleased, and you are rewarded with a shiny but worthless badge for your efforts. Congratulations! …Guess it’s back to performing tricks on the street."
+    },
+    {
+        "id": 27,
+        "text": "YOU WIN! You keep the gem and run off, never returning. Everyone in the Hero’s Guild and the palace assume you’ve died. But really, you’re off living a rich life in another kingdom now, under a new identity. You left everything behind, sure, but it was worth it… right?"
+    },
+    {
+        "id": 28,
+        "text": "YOU WIN! The bandits leave you alone with your single gem, and you manage to escape the cave in one piece. When you return the gem to the Queen and regale the tale to the King, he’s thrilled to hear that the threat of the dragon is gone for good. He rewards you with nothing for the gem, but for taking the life of the dragon, you are rewarded one thousand gold! Worth it, right?"
+    },
+    {
+        "id": 101,
+        "text": "YOU DIED: Watch out for incoming vehicles!"
+    },
+    {
+        "id": 102,
+        "text": "YOU DIED: The log was fine. Your balance was terrible."
+    },
+    {
+        "id": 103,
+        "text": "YOU DIED: What did you think would happen?"
+    },
+    {
+        "id": 104,
+        "text": "YOU DIED: A valiant effort. Sort of."
+    },
+    {
+        "id": 105,
+        "text": "YOU DIED: Liar, liar, pants on fire?"
+    },
+    {
+        "id": 106,
+        "text": "YOU DIED: You had ONE job."
+    },
+    {
+        "id": 107,
+        "text": "YOU DIED: Bandits. Bandits everywhere."
+    },
+    {
+        "id": 108,
+        "text": "YOU DIED: You wouldn’t know it, but there was a river there."
+    },
+    {
+        "id": 109,
+        "text": "YOU DIED: Extra crispy, please."
+    },
+    {
+        "id": 110,
+        "text": "YOU DIED: lol don’t be greedy - the dragon, probably"
+    },
+    {
+        "id": 111,
+        "text": "YOU DIED: Oops. Forgot to mention they have arrows."
+    },
+    {
+        "id": 112,
+        "text": "YOU DIED: Don’t bring a knife to a bow fight."
+    },
+    {
+        "id": 113,
+        "text": "YOU DIED: Oh yeah. There was a cliff there."
+    },
+    {
+        "id": 114,
+        "text": "YOU DIED: You don’t get to run from a dragon."
+    },
+    {
+        "id": 115,
+        "text": "YOU DIED: Too noisy."
+    },
+    {
+        "id": 116,
+        "text": "YOU DIED: There are hundreds of them and only one of you."
+    },
+    {
+        "id": 117,
+        "text": "YOU DIED: Good plan."
+    },
+    {
+        "id": 118,
+        "text": "YOU DIED: They didn’t kill you. You just tripped."
+    }
+]
