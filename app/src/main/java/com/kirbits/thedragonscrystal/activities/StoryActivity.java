@@ -37,6 +37,7 @@ public class StoryActivity extends AppCompatActivity{
         displayPage(currPageId);
 
         choice1.setOnClickListener(v-> goToPage(pages.get(currPageId).getChoice1Target()));
+        choice2.setOnClickListener(v -> goToPage(pages.get(currPageId).getChoice2Target()));
     }
 
     private void loadStory(){
@@ -77,5 +78,7 @@ public class StoryActivity extends AppCompatActivity{
     private void goToPage(int targetId){
         displayPage(targetId);
     }
+
+    //TODO set up dyanmic image display logic via json or case statments
 }
 

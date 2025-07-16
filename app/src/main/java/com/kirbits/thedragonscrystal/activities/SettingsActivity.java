@@ -12,6 +12,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // TODO: Allow user to toggle sound/music (optional)
         // TODO: Add dark/light mode toggle (optional)
+        // TODO: Think of more settings lol
         // TODO: Add a reset progress button
     }
 }
