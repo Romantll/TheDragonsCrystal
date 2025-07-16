@@ -6,22 +6,29 @@
     android:orientation="vertical"
     android:padding="24dp"
     android:gravity="center"
-    android:background="@drawable/story_screen_cave">
+    android:background="@drawable/main_menu">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/btn_start"
-        android:layout_width="match_parent"
+        android:layout_width="269dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
         android:background="@drawable/button_purple_rounded"
+        android:padding="10dp"
         android:text="@string/start_game"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="normal"
-        android:padding="10dp"/>
+        android:layout_marginBottom="64dp"/>
 
     <Button
         android:id="@+id/btn_load"
-        android:layout_width="match_parent"
+        android:layout_width="269dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_purple_rounded"
         android:text="@string/load_game"
@@ -29,11 +36,11 @@
         android:textStyle="normal"
         android:textSize="18sp"
         android:padding="10dp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginBottom="64dp"/>
 
     <Button
         android:id="@+id/btn_endings"
-        android:layout_width="match_parent"
+        android:layout_width="269dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_purple_rounded"
         android:text="@string/view_endings"
@@ -41,18 +48,15 @@
         android:textStyle="normal"
         android:textSize="18sp"
         android:padding="10dp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginBottom="64dp"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_purple_rounded"
-        android:text="@string/settings"
-        android:textColor="@color/white"
-        android:textStyle="normal"
-        android:textSize="18sp"
-        android:padding="10dp"
-        android:layout_marginTop="16dp"/>
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/button_settings"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/settings"
+        android:layout_marginBottom="40dp"/>
 
 </LinearLayout>

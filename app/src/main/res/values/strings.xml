@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">The Dragon\'s Crystal</string>
+    <string name="app_name">The Dragon\'s \nCrystal</string>
     <string name="start_game">Start Game</string>
     <string name="load_game">Load Game</string>
     <string name="view_endings">View Endings</string>
