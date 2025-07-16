@@ -22,13 +22,13 @@
             android:id="@+id/choice1_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choice 1"/>
+            android:text="@string/choice_1"/>
 
         <Button
             android:id="@+id/choice2_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choice 2"
+            android:text="@string/choice_2"
             android:layout_marginTop="12dp"/>
     </LinearLayout>
 </ScrollView>
