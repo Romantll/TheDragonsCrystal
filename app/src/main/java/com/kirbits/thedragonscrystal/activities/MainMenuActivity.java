@@ -26,14 +26,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
         //Register callback for button
         btnStart.setOnClickListener(v ->{
-           Intent intent = new Intent(this, StoryActivity.class);
-           startActivity(intent);
+            Intent intent = new Intent(this, StoryActivity.class);
+            startActivity(intent);
         });
 
-        btnLoad.setOnClickListener(v ->{
+        btnLoad.setOnClickListener(v -> {
             Intent intent = new Intent(this, LoadGameActivity.class);
             startActivity(intent);
-        )};
+        });
 
         btnEndings.setOnClickListener(v ->{
             Intent intent = new Intent(this, EndingsActivity.class);
