@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/story_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/story_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fix story text"
+            android:textSize="18sp"
+            android:paddingBottom="24dp"/>
+
+        <Button
+            android:id="@+id/choice1_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choice 1"/>
+
+        <Button
+            android:id="@+id/choice2_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choice 2"
+            android:layout_marginTop="12dp"/>
+    </LinearLayout>
+</ScrollView>
