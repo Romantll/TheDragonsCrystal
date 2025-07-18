@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main_menu_blue">#1B1B58</color>
+    <color name="button_story_purple">#8E44AD</color>
 </resources>
