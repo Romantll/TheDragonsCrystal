@@ -1,43 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/story_layout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/story_text"
+
+    <ImageView
+        android:id="@+id/background_image"
         android:layout_width="match_parent"
-        android:layout_height="202dp"
-        android:paddingBottom="24dp"
-        android:textSize="18sp"
-        android:layout_marginTop="128dp"
-        android:background="@drawable/button_purple_rounded"/>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/start_game"/>
 
-    <Button
-        android:id="@+id/choice1_button"
+    <LinearLayout
+        android:id="@+id/story_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/choice_1"
-        android:textColor="@color/white"
-        android:textStyle="normal"
-        android:textSize="18sp"
-        android:padding="10dp"
-        android:layout_marginTop="64dp"
-        android:background="@drawable/button_purple_rounded"/>
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center">
 
-    <Button
-        android:id="@+id/choice2_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/choice_2"
-        android:layout_marginTop="64dp"
-        android:textColor="@color/white"
-        android:textStyle="normal"
-        android:textSize="18sp"
-        android:padding="10dp"
-        android:background="@drawable/button_purple_rounded"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/story_text"
+            android:layout_width="match_parent"
+            android:layout_height="202dp"
+            android:paddingBottom="24dp"
+            android:textSize="18sp"
+            android:layout_marginTop="180dp"
+            android:background="@drawable/button_purple_rounded"/>
+
+        <Button
+            android:id="@+id/choice1_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choice_1"
+            android:textColor="@color/white"
+            android:textStyle="normal"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:layout_marginTop="64dp"
+            android:background="@drawable/button_purple_rounded"/>
+
+        <Button
+            android:id="@+id/choice2_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choice_2"
+            android:layout_marginTop="64dp"
+            android:textColor="@color/white"
+            android:textStyle="normal"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:background="@drawable/button_purple_rounded"/>
+    </LinearLayout>
+</FrameLayout>

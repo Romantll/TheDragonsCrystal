@@ -5,7 +5,8 @@
         "choice_1_text": "Awesome!",
         "choice_1_target": 1,
         "choice_2_text": "Okay.",
-        "choice_2_target": 1
+        "choice_2_target": 1,
+        "background": "story_screen_opening.png"
     },
     {
         "id": 1,
@@ -13,7 +14,8 @@
         "choice_1_text": "To the palace!",
         "choice_1_target": 2,
         "choice_2_text": "Okay.",
-        "choice_2_target": 2
+        "choice_2_target": 2,
+        "background": "story_screen_opening.png"
     },
     {
         "id": 2,
@@ -21,7 +23,8 @@
         "choice_1_text": "Let’s go!",
         "choice_1_target": 3,
         "choice_2_text": "No thanks.",
-        "choice_2_target": 25
+        "choice_2_target": 25,
+        "background": "story_screen_palace.png"
     },
     {
         "id": 3,
@@ -29,7 +32,8 @@
         "choice_1_text": "Examine tracks on the road.",
         "choice_1_target": 101,
         "choice_2_text": "Look in bushes on the side of the road.",
-        "choice_2_target": 4
+        "choice_2_target": 4,
+        "background": "story_screen_palace.png"
     },
     {
         "id": 4,
@@ -37,7 +41,8 @@
         "choice_1_text": "Pocket the handkerchief.",
         "choice_1_target": 5,
         "choice_2_text": "Leave it.",
-        "choice_2_target": 13
+        "choice_2_target": 13,
+        "background": "story_screen_jungle.png"
     },
     {
         "id": 5,
@@ -45,7 +50,8 @@
         "choice_1_text": "Jump across it.",
         "choice_1_target": 6,
         "choice_2_text": "Cross using a nearby log.",
-        "choice_2_target": 102
+        "choice_2_target": 102,
+        "background": "story_screen_jungle.png"
     },
     {
         "id": 6,
@@ -53,7 +59,8 @@
         "choice_1_text": "Jump!",
         "choice_1_target": 103,
         "choice_2_text": "Look around.",
-        "choice_2_target": 7
+        "choice_2_target": 7,
+        "background": "story_screen_cliff.png"
     },
     {
         "id": 7,
@@ -61,7 +68,8 @@
         "choice_1_text": "Cut to the left.",
         "choice_1_target": 8,
         "choice_2_text": "Cut to the right.",
-        "choice_2_target": 19
+        "choice_2_target": 19,
+        "background": "story_screen_cliff.png"
     },
     {
         "id": 8,
@@ -69,7 +77,8 @@
         "choice_1_text": "AHHHHH!",
         "choice_1_target": 104,
         "choice_2_text": "Ahh?",
-        "choice_2_target": 9
+        "choice_2_target": 9,
+        "background": "story_screen_cliff.png"
     },
     {
         "id": 9,
@@ -77,7 +86,8 @@
         "choice_1_text": "Greet the dragon.",
         "choice_1_target": 10,
         "choice_2_text": "Fight the dragon.",
-        "choice_2_target": 20
+        "choice_2_target": 20,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 10,
@@ -85,7 +95,8 @@
         "choice_1_text": "Yes.",
         "choice_1_target": 11,
         "choice_2_text": "No.",
-        "choice_2_target": 105
+        "choice_2_target": 105,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 11,
@@ -93,7 +104,8 @@
         "choice_1_text": "Take the Queen’s gem.",
         "choice_1_target": 12,
         "choice_2_text": "Look inside the chest.",
-        "choice_2_target": 106
+        "choice_2_target": 106,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 12,
@@ -101,7 +113,8 @@
         "choice_1_text": "Walk on the left roadside.",
         "choice_1_target": 26,
         "choice_2_text": "Walk on the right roadside.",
-        "choice_2_target": 107
+        "choice_2_target": 107,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 13,
@@ -109,7 +122,8 @@
         "choice_1_text": "Look up.",
         "choice_1_target": 14,
         "choice_2_text": "Keep walking.",
-        "choice_2_target": 23
+        "choice_2_target": 23,
+        "background": "story_screen_under_the_canopy.png"
     },
     {
         "id": 14,
@@ -117,7 +131,8 @@
         "choice_1_text": "Keep walking.",
         "choice_1_target": 108,
         "choice_2_text": "Enter the tunnel.",
-        "choice_2_target": 15
+        "choice_2_target": 15,
+        "background": "story_screen_under_the_canopy.png"
     },
     {
         "id": 15,
@@ -125,7 +140,8 @@
         "choice_1_text": "Go for the gem.",
         "choice_1_target": 16,
         "choice_2_text": "Ask the dragon for the gem.",
-        "choice_2_target": 109
+        "choice_2_target": 109,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 16,
@@ -133,7 +149,8 @@
         "choice_1_text": "Gather extra treasures.",
         "choice_1_target": 110,
         "choice_2_text": "Get out of there!",
-        "choice_2_target": 17
+        "choice_2_target": 17,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 17,
@@ -141,7 +158,8 @@
         "choice_1_text": "RUN!",
         "choice_1_target": 111,
         "choice_2_text": "Walk slowly.",
-        "choice_2_target": 18
+        "choice_2_target": 18,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 18,
@@ -149,7 +167,8 @@
         "choice_1_text": "Return it to the palace.",
         "choice_1_target": 26,
         "choice_2_text": "Keep it and flee the kingdom.",
-        "choice_2_target": 27
+        "choice_2_target": 27,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 19,
@@ -157,7 +176,8 @@
         "choice_1_text": "Fight!",
         "choice_1_target": 112,
         "choice_2_text": "Run!",
-        "choice_2_target": 113
+        "choice_2_target": 113,
+        "background": "story_screen_cliff.png"
     },
     {
         "id": 20,
@@ -165,7 +185,8 @@
         "choice_1_text": "Run!",
         "choice_1_target": 114,
         "choice_2_text": "Stay?",
-        "choice_2_target": 21
+        "choice_2_target": 21,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 21,
@@ -173,7 +194,8 @@
         "choice_1_text": "Grab the gem and run!",
         "choice_1_target": 115,
         "choice_2_text": "Grab the trident and attack!",
-        "choice_2_target": 22
+        "choice_2_target": 22,
+        "background":"story_screen_cave.png"
     },
     {
         "id": 22,
@@ -181,7 +203,8 @@
         "choice_1_text": "Grab the gem!",
         "choice_1_target": 28,
         "choice_2_text": "Attack the bandits!",
-        "choice_2_target": 116
+        "choice_2_target": 116,
+        "background": "story_screen_cave.png"
     },
     {
         "id": 23,
@@ -189,7 +212,8 @@
         "choice_1_text": "Ask about the gem.",
         "choice_1_target": 24,
         "choice_2_text": "Fight them for the gem.",
-        "choice_2_target": 117
+        "choice_2_target": 117,
+        "background": "story_screen_under_the_canopy.png"
     },
     {
         "id": 24,
@@ -197,94 +221,117 @@
         "choice_1_text": "Wish them well and continue on.",
         "choice_1_target": 118,
         "choice_2_text": "Go through the tunnel.",
-        "choice_2_target": 15
+        "choice_2_target": 15,
+        "background": "story_screen_under_the_canopy.png"
     },
     {
         "id": 25,
-        "text": "YOU WIN! You did it! You turned down your first ever opportunity at riches and glory! Congrats on meeting the King, I guess."
+        "text": "YOU WIN! You did it! You turned down your first ever opportunity at riches and glory! Congrats on meeting the King, I guess.",
+        "background": "story_screen_palace.png"
     },
     {
         "id": 26,
-        "text": "YOU WIN! You return safely to the palace, delivering the gem to the Queen. The King is pleased, and you are rewarded with a shiny but worthless badge for your efforts. Congratulations! …Guess it’s back to performing tricks on the street."
+        "text": "YOU WIN! You return safely to the palace, delivering the gem to the Queen. The King is pleased, and you are rewarded with a shiny but worthless badge for your efforts. Congratulations! …Guess it’s back to performing tricks on the street.",
+        "background": "end_screen_true_pacifist.png"
     },
     {
         "id": 27,
-        "text": "YOU WIN! You keep the gem and run off, never returning. Everyone in the Hero’s Guild and the palace assume you’ve died. But really, you’re off living a rich life in another kingdom now, under a new identity. You left everything behind, sure, but it was worth it… right?"
+        "text": "YOU WIN! You keep the gem and run off, never returning. Everyone in the Hero’s Guild and the palace assume you’ve died. But really, you’re off living a rich life in another kingdom now, under a new identity. You left everything behind, sure, but it was worth it… right?",
+        "background:": "end_screen_new_beginnings.png"
     },
     {
         "id": 28,
-        "text": "YOU WIN! The bandits leave you alone with your single gem, and you manage to escape the cave in one piece. When you return the gem to the Queen and regale the tale to the King, he’s thrilled to hear that the threat of the dragon is gone for good. He rewards you with nothing for the gem, but for taking the life of the dragon, you are rewarded one thousand gold! Worth it, right?"
+        "text": "YOU WIN! The bandits leave you alone with your single gem, and you manage to escape the cave in one piece. When you return the gem to the Queen and regale the tale to the King, he’s thrilled to hear that the threat of the dragon is gone for good. He rewards you with nothing for the gem, but for taking the life of the dragon, you are rewarded one thousand gold! Worth it, right?",
+        "background": "end_screen_true_pacifist.png"
     },
     {
         "id": 101,
-        "text": "YOU DIED: Watch out for incoming vehicles!"
+        "text": "YOU DIED: Watch out for incoming vehicles!",
+        "background": "death_screen.png"
     },
     {
         "id": 102,
-        "text": "YOU DIED: The log was fine. Your balance was terrible."
+        "text": "YOU DIED: The log was fine. Your balance was terrible.",
+        "background": "death_screen_png"
     },
     {
         "id": 103,
-        "text": "YOU DIED: What did you think would happen?"
+        "text": "YOU DIED: What did you think would happen?",
+        "background": "death_screen.png"
     },
     {
         "id": 104,
-        "text": "YOU DIED: A valiant effort. Sort of."
+        "text": "YOU DIED: A valiant effort. Sort of.",
+        "background": "death_screen.png"
     },
     {
         "id": 105,
-        "text": "YOU DIED: Liar, liar, pants on fire?"
+        "text": "YOU DIED: Liar, liar, pants on fire?",
+        "background": "death_screen.png"
     },
     {
         "id": 106,
-        "text": "YOU DIED: You had ONE job."
+        "text": "YOU DIED: You had ONE job.",
+        "background": "death_screen.png"
     },
     {
         "id": 107,
-        "text": "YOU DIED: Bandits. Bandits everywhere."
+        "text": "YOU DIED: Bandits. Bandits everywhere.",
+        "background": "death_screen.png"
     },
     {
         "id": 108,
-        "text": "YOU DIED: You wouldn’t know it, but there was a river there."
+        "text": "YOU DIED: You wouldn’t know it, but there was a river there.",
+        "background": "death_screen.png"
     },
     {
         "id": 109,
-        "text": "YOU DIED: Extra crispy, please."
+        "text": "YOU DIED: Extra crispy, please.",
+        "background": "death_screen.png"
     },
     {
         "id": 110,
-        "text": "YOU DIED: lol don’t be greedy - the dragon, probably"
+        "text": "YOU DIED: lol don’t be greedy - the dragon, probably",
+        "background": "death_screen.png"
     },
     {
         "id": 111,
-        "text": "YOU DIED: Oops. Forgot to mention they have arrows."
+        "text": "YOU DIED: Oops. Forgot to mention they have arrows.",
+        "background": "death_screen.png"
     },
     {
         "id": 112,
-        "text": "YOU DIED: Don’t bring a knife to a bow fight."
+        "text": "YOU DIED: Don’t bring a knife to a bow fight.",
+        "background": "death_screen.png"
     },
     {
         "id": 113,
-        "text": "YOU DIED: Oh yeah. There was a cliff there."
+        "text": "YOU DIED: Oh yeah. There was a cliff there.",
+        "background": "death_screen.png"
     },
     {
         "id": 114,
-        "text": "YOU DIED: You don’t get to run from a dragon."
+        "text": "YOU DIED: You don’t get to run from a dragon.",
+        "background": "death_screen.png"
     },
     {
         "id": 115,
-        "text": "YOU DIED: Too noisy."
+        "text": "YOU DIED: Too noisy.",
+        "background": "death_screen.png"
     },
     {
         "id": 116,
-        "text": "YOU DIED: There are hundreds of them and only one of you."
+        "text": "YOU DIED: There are hundreds of them and only one of you.",
+        "background": "death_screen.png"
     },
     {
         "id": 117,
-        "text": "YOU DIED: Good plan."
+        "text": "YOU DIED: Good plan.",
+        "background": "death_screen.png"
     },
     {
         "id": 118,
-        "text": "YOU DIED: They didn’t kill you. You just tripped."
+        "text": "YOU DIED: They didn’t kill you. You just tripped.",
+        "background": "death_screen.png"
     }
 ]

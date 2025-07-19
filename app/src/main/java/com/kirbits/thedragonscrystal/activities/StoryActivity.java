@@ -1,9 +1,11 @@
 package com.kirbits.thedragonscrystal.activities;
 
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
@@ -12,6 +14,7 @@ import android.util.Log;
 import com.kirbits.thedragonscrystal.R;
 import com.kirbits.thedragonscrystal.models.Page;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -23,6 +26,7 @@ public class StoryActivity extends AppCompatActivity{
     private TextView storyText;
     private Button choice1;
     private Button choice2;
+    private ImageView backgroundImage;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -31,6 +35,7 @@ public class StoryActivity extends AppCompatActivity{
         storyText = findViewById(R.id.story_text);
         choice1 = findViewById(R.id.choice1_button);
         choice2 = findViewById(R.id.choice2_button);
+        backgroundImage = findViewById(R.id.background_image);
 
         loadStory();
 
@@ -61,6 +66,18 @@ public class StoryActivity extends AppCompatActivity{
         currPageId = pageId;
 
         storyText.setText(page.getText());
+
+        //Sets background dynamically
+        if(page.getBackground() != null){
+            try {
+                InputStream bgStream = getAssets().open("backgrounds/" + page.getBackground());
+                Drawable drawable = Drawable.createFromStream(bgStream, null);
+                backgroundImage.setImageDrawable(drawable);
+            }catch (IOException e){
+                //logging if background is not found
+                Log.e("StoryActivity","Background image not found: " + page.getBackground());
+            }
+        }
 
         if (page.getChoice1Text() != null && page.getChoice2Text() != null) {
 

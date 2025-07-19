@@ -7,8 +7,9 @@ public class Page {
     public int choice_1_target;
     public String choice_2_text;
     public int choice_2_target;
+    public String background;
 
-    public Page(int id, String text, String choice_1_text, int choice_1_target, String choice_2_text, int choice_2_target){
+    public Page(int id, String text, String choice_1_text, int choice_1_target, String choice_2_text, int choice_2_target, String background){
 
         this.id = id;
         this.text = text;
@@ -16,6 +17,7 @@ public class Page {
         this.choice_1_target = choice_1_target;
         this.choice_2_text = choice_2_text;
         this.choice_2_target = choice_2_target;
+        this.background = background;
 
     }
 
@@ -42,5 +44,9 @@ public class Page {
 
     public int getChoice2Target() {
         return choice_2_target;
+    }
+
+    public String getBackground(){
+        return background;
     }
 }
