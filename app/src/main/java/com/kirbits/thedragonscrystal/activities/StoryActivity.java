@@ -1,5 +1,6 @@
 package com.kirbits.thedragonscrystal.activities;
 
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kirbits.thedragonscrystal.R;
 import com.kirbits.thedragonscrystal.models.Page;
+import com.kirbits.thedragonscrystal.models.SaveData;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -121,6 +123,7 @@ public class StoryActivity extends AppCompatActivity {
             Drawable drawable = Drawable.createFromStream(inputStream, null);
             backgroundImage.setImageDrawable(drawable);
         } catch (Exception e) {
+            //Logging error if image does not load
             Log.e("StoryActivity", "Error loading background image: " + filename, e);
         }
     }
