@@ -12,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.kirbits.thedragonscrystal.R;
 import com.kirbits.thedragonscrystal.models.SaveData;
 import com.kirbits.thedragonscrystal.utils.SaveManager;
-
+//TODO change "getIdentifier" declarations into direct binds due to prior debug issues
+//Works for now but will incur technical debt as codebase expands
 public class LoadGameActivity extends AppCompatActivity {
 
     @Override
@@ -68,7 +69,6 @@ public class LoadGameActivity extends AppCompatActivity {
     /**
      * Deletes save on long press
      */
-
     private void showDeleteDialog(int slot){
         new AlertDialog.Builder(this)
                 .setTitle("Delete Save?")
