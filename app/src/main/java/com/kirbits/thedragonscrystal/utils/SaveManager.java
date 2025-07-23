@@ -1,33 +1,56 @@
 package com.kirbits.thedragonscrystal.utils;
 
 import android.content.Context;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.kirbits.thedragonscrystal.models.SaveData;
-import java.io.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileReader;
 
 public class SaveManager {
-    public static void saveGame(Context context, SaveData data, String slot) {
+
+    private static final String TAG = "SaveManager";
+    private static final String[] SLOT_FILENAMES = {"save_slot1.json", "save_slot2.json", "save_slot3.json"};
+
+    // Save the game to a file
+    public static void saveGame(Context context, SaveData data, int slot) {
         try {
-            FileOutputStream fos = context.openFileOutput("save_slot_" + slot + ".json", Context.MODE_PRIVATE);
-            OutputStreamWriter writer = new OutputStreamWriter(fos);
-            new Gson().toJson(data, writer);
-            writer.flush();
+            File file = new File(context.getFilesDir(), SLOT_FILENAMES[slot - 1]);
+            FileWriter writer = new FileWriter(file);
+            Gson gson = new Gson();
+            gson.toJson(data, writer);
             writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            Log.d(TAG, "Game saved successfully to slot " + slot);
+        } catch (Exception e) {
+            Log.e(TAG, "Error saving game to slot " + slot, e);
         }
     }
 
-
-    public static SaveData loadGame(Context context, String slot) {
+    // Load the game from a file
+    public static SaveData loadGame(Context context, int slot) {
         try {
-            FileInputStream fis = context.openFileInput("save_slot_" + slot + ".json");
-            InputStreamReader reader = new InputStreamReader(fis);
-            return new Gson().fromJson(reader, SaveData.class);
-        }catch (IOException e){
-            e.printStackTrace();
+            File file = new File(context.getFilesDir(), SLOT_FILENAMES[slot - 1]);
+            if (!file.exists()) return null;
+
+            FileReader reader = new FileReader(file);
+            Gson gson = new Gson();
+            SaveData data = gson.fromJson(reader, SaveData.class);
+            reader.close();
+            return data;
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading game from slot " + slot, e);
             return null;
+        }
+    }
+
+    // Delete a save file
+    public static void deleteSave(Context context, int slot) {
+        File file = new File(context.getFilesDir(), SLOT_FILENAMES[slot - 1]);
+        if (file.exists() && !file.delete()) {
+            Log.w(TAG, "Failed to delete save file: " + file.getName());
         }
     }
 }

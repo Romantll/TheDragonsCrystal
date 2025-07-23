@@ -8,6 +8,7 @@ public class Page {
     public String choice_2_text;
     public int choice_2_target;
     public String background;
+    private  boolean death;
 
     public Page(int id, String text, String choice_1_text, int choice_1_target, String choice_2_text, int choice_2_target, String background){
 
@@ -49,4 +50,9 @@ public class Page {
     public String getBackground(){
         return background;
     }
+
+    public boolean isDeath() { return death; }
+
+    public void setDeath(boolean death) { this.death = death; }
+
 }

@@ -6,4 +6,17 @@
     <string name="settings">Settings</string>
     <string name="choice_1">Choice 1</string>
     <string name="choice_2">Choice 2</string>
+    <string name="slot_empty">Slot %1$d: Empty</string>
+    <string name="slot_continue">Slot %1$d: Continue (Page %2$d)</string>
+    <string name="slot_dead_restart">Slot %1$d: Dead - Restart</string>
+    <string name="save_success">Game saved to slot %1$d</string>
+    <string name="load_slot_filled">Continue from Page %1$d</string>
+    <string name="load_slot_empty">Empty Slot %1$d</string>
+    <string name="load_slot_empty_default">Empty Slot</string>
+    <string name="no_save_data">No save data available!</string>
+    <string name="home_button">Back to Main Menu</string>
+
+
+
+
 </resources>

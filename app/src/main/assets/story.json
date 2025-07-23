@@ -247,91 +247,109 @@
     {
         "id": 101,
         "text": "YOU DIED: Watch out for incoming vehicles!",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 102,
         "text": "YOU DIED: The log was fine. Your balance was terrible.",
-        "background": "death_screen_png"
+        "background": "death_screen_png",
+        "death": true
     },
     {
         "id": 103,
         "text": "YOU DIED: What did you think would happen?",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 104,
         "text": "YOU DIED: A valiant effort. Sort of.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 105,
         "text": "YOU DIED: Liar, liar, pants on fire?",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 106,
         "text": "YOU DIED: You had ONE job.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 107,
         "text": "YOU DIED: Bandits. Bandits everywhere.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 108,
         "text": "YOU DIED: You wouldn’t know it, but there was a river there.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 109,
         "text": "YOU DIED: Extra crispy, please.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 110,
         "text": "YOU DIED: lol don’t be greedy - the dragon, probably",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 111,
         "text": "YOU DIED: Oops. Forgot to mention they have arrows.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 112,
         "text": "YOU DIED: Don’t bring a knife to a bow fight.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 113,
         "text": "YOU DIED: Oh yeah. There was a cliff there.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 114,
         "text": "YOU DIED: You don’t get to run from a dragon.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 115,
         "text": "YOU DIED: Too noisy.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 116,
         "text": "YOU DIED: There are hundreds of them and only one of you.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 117,
         "text": "YOU DIED: Good plan.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     },
     {
         "id": 118,
         "text": "YOU DIED: They didn’t kill you. You just tripped.",
-        "background": "death_screen.png"
+        "background": "death_screen.png",
+        "death": true
     }
 ]

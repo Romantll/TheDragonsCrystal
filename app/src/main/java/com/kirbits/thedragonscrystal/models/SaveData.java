@@ -30,6 +30,10 @@ public class SaveData {
         return visitedPageIds;
     }
 
+    public void setVisitedPageIds(List<Integer> visitedPageIds) {
+        this.visitedPageIds = visitedPageIds;
+    }
+
     public void addVisitedPageId(int id){
         visitedPageIds.add(id);
     }
@@ -50,4 +54,7 @@ public class SaveData {
         isDead = dead;
     }
 
+    public void setUnlockedEndings(Set<String> unlockedEndings) {
+        this.unlockedEndings = unlockedEndings;
+    }
 }

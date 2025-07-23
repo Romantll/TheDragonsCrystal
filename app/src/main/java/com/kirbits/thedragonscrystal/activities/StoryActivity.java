@@ -1,6 +1,6 @@
 package com.kirbits.thedragonscrystal.activities;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,49 +18,81 @@ import com.google.gson.reflect.TypeToken;
 import com.kirbits.thedragonscrystal.R;
 import com.kirbits.thedragonscrystal.models.Page;
 import com.kirbits.thedragonscrystal.models.SaveData;
+import com.kirbits.thedragonscrystal.utils.SaveManager;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class StoryActivity extends AppCompatActivity {
-    // Use a map so we can look up pages by their unique ID
+
+    // Map for quick lookup of pages by ID
     private Map<Integer, Page> pageMap;
 
+    // Tracking game state
+    private List<Integer> visitedPages = new ArrayList<>();
+    private Set<String> unlockedEndings = new HashSet<>();
     private int currPageId = 0;
+    private int slotId = -1; // -1 means unsaved / new game
+    private boolean isDead = false;
 
     // UI components
     private TextView storyText;
     private Button choice1;
     private Button choice2;
+    private Button saveButton;
     private ImageView backgroundImage;
+    private Button homeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
 
-        // Bind views from XML layout
+        // Bind views
         storyText = findViewById(R.id.story_text);
         choice1 = findViewById(R.id.choice1_button);
         choice2 = findViewById(R.id.choice2_button);
         backgroundImage = findViewById(R.id.story_background);
+        saveButton = findViewById(R.id.save_button);
+        homeButton = findViewById(R.id.home_button); // <-- New
 
-        // Load story pages from assets/story.json
+        // Load story
         loadStory();
-
-        // Show the first page
         displayPage(currPageId);
 
-        // Set listeners for the two choice buttons
+        // Choice listeners
         choice1.setOnClickListener(v -> goToPage(Objects.requireNonNull(pageMap.get(currPageId)).getChoice1Target()));
         choice2.setOnClickListener(v -> goToPage(Objects.requireNonNull(pageMap.get(currPageId)).getChoice2Target()));
+
+        // Save listener
+        saveButton.setOnClickListener(v -> {
+            SaveData data = new SaveData();
+            data.setCurrentPageId(currPageId);
+            for (int i = 0; i <= currPageId; i++) {
+                data.addVisitedPageId(i);
+            }
+            data.setUnlockedEndings(unlockedEndings);
+            data.setDead(isDead);
+            SaveManager.saveGame(this, data, slotId);
+            Toast.makeText(this, getString(R.string.save_success, slotId), Toast.LENGTH_SHORT).show();
+        });
+
+        // Home button listener
+        homeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
-    // Reads the story.json file and loads pages into a map
+    /** Load story JSON into a map */
     private void loadStory() {
         try {
             AssetManager assetManager = getAssets();
@@ -69,7 +102,6 @@ public class StoryActivity extends AppCompatActivity {
             Gson gson = new Gson();
             List<Page> pageList = gson.fromJson(reader, new TypeToken<List<Page>>(){}.getType());
 
-            // Map each page ID to its Page object for quick lookup
             pageMap = new HashMap<>();
             for (Page page : pageList) {
                 pageMap.put(page.getId(), page);
@@ -79,43 +111,75 @@ public class StoryActivity extends AppCompatActivity {
         }
     }
 
-    // Updates UI based on the current page
+    /** Update the screen to show a specific page */
     private void displayPage(int pageId) {
         Page page = pageMap.get(pageId);
 
-        // Safeguard in case the page ID isn't found
         if (page == null) {
             Log.e("StoryActivity", "Page ID not found: " + pageId);
             return;
         }
 
         currPageId = pageId;
-
-        // Set the story text
         storyText.setText(page.getText());
-
-        // Set the background image based on the JSON field
         setBackgroundImage(page.getBackground());
 
-        // Set the buttons if choices are available
+        // Show/hide choice buttons
         if (page.getChoice1Text() != null && page.getChoice2Text() != null) {
             choice1.setText(page.getChoice1Text());
             choice2.setText(page.getChoice2Text());
             choice1.setVisibility(View.VISIBLE);
             choice2.setVisibility(View.VISIBLE);
         } else {
-            // Hide buttons if it's an ending screen
             choice1.setVisibility(View.GONE);
             choice2.setVisibility(View.GONE);
         }
     }
 
-    // Navigate to the next page
+    /** Move to the selected page, updating save state */
     private void goToPage(int targetId) {
+        visitedPages.add(targetId);
+        currPageId = targetId;
+
+        Page page = pageMap.get(targetId);
+
+        // If the page is a death/ending page, update flags
+        if (page != null && page.isDeath()) {
+            isDead = true;
+            unlockedEndings.add("Ending: " + page.getId());
+        }
+
+        // Auto-save if this is a loaded slot
+        if (slotId != -1) {
+            SaveData saveData = new SaveData();
+            saveData.setCurrentPageId(currPageId);
+            saveData.setVisitedPageIds(visitedPages);
+            saveData.setUnlockedEndings(unlockedEndings);
+            saveData.setDead(isDead);
+            SaveManager.saveGame(this, saveData, slotId);
+        }
+
         displayPage(targetId);
     }
 
-    // Loads a background image from the assets/backgrounds folder
+    /** Save the game manually */
+    private void saveGame() {
+        if (slotId == -1) {
+            Toast.makeText(this, "No save slot selected.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        SaveData data = new SaveData();
+        data.setCurrentPageId(currPageId);
+        data.setVisitedPageIds(visitedPages);
+        data.setUnlockedEndings(unlockedEndings);
+        data.setDead(isDead);
+
+        SaveManager.saveGame(this, data, slotId);
+        Toast.makeText(this, getString(R.string.save_success, slotId), Toast.LENGTH_SHORT).show();
+    }
+
+    /** Load background image for the current page */
     private void setBackgroundImage(String filename) {
         try {
             AssetManager assetManager = getAssets();
@@ -123,7 +187,6 @@ public class StoryActivity extends AppCompatActivity {
             Drawable drawable = Drawable.createFromStream(inputStream, null);
             backgroundImage.setImageDrawable(drawable);
         } catch (Exception e) {
-            //Logging error if image does not load
             Log.e("StoryActivity", "Error loading background image: " + filename, e);
         }
     }

@@ -2,6 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="24dp">
+
+    <Button
+        android:id="@+id/slot1_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/load_slot_empty_default" />
+
+    <Button
+        android:id="@+id/slot2_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/load_slot_empty_default" />
+
+    <Button
+        android:id="@+id/slot3_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/load_slot_empty_default" />
+
+    <Button
+        android:id="@+id/home_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/home_button" />
+
 
 </LinearLayout>
