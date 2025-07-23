@@ -39,7 +39,7 @@ public class StoryActivity extends AppCompatActivity {
     private List<Integer> visitedPages = new ArrayList<>();
     private Set<String> unlockedEndings = new HashSet<>();
     private int currPageId = 0;
-    private int slotId = -1; // -1 means unsaved / new game
+    private int slotId = 1;
     private boolean isDead = false;
 
     // UI components
@@ -54,6 +54,24 @@ public class StoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
+
+        Intent intent = getIntent();
+
+        // Load save data if this is coming from LoadGameActivity
+        if (intent != null && intent.hasExtra("slot")) {
+            slotId = intent.getIntExtra("slot", 1);
+            currPageId = intent.getIntExtra("pageId", 0);
+            visitedPages = intent.getIntegerArrayListExtra("visitedPages");
+            unlockedEndings = new HashSet<>(Objects.requireNonNull(intent.getStringArrayListExtra("unlockedEndings")));
+            isDead = intent.getBooleanExtra("isDead", false);
+        } else {
+            // Fresh game: default to slot 1
+            slotId = 1;
+            currPageId = 0;
+            visitedPages = new ArrayList<>();
+            unlockedEndings = new HashSet<>();
+            isDead = false;
+        }
 
         // Bind views
         storyText = findViewById(R.id.story_text);
@@ -75,19 +93,20 @@ public class StoryActivity extends AppCompatActivity {
         saveButton.setOnClickListener(v -> {
             SaveData data = new SaveData();
             data.setCurrentPageId(currPageId);
-            for (int i = 0; i <= currPageId; i++) {
-                data.addVisitedPageId(i);
-            }
+            data.setVisitedPageIds(visitedPages);
             data.setUnlockedEndings(unlockedEndings);
             data.setDead(isDead);
+
             SaveManager.saveGame(this, data, slotId);
-            Toast.makeText(this, getString(R.string.save_success, slotId), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Game saved to slot " + slotId, Toast.LENGTH_SHORT).show();
+            Log.d("StoryActivity", "Manual save to slot " + slotId);
         });
+
 
         // Home button listener
         homeButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MainMenuActivity.class);
-            startActivity(intent);
+            Intent homeIntent = new Intent(this, MainMenuActivity.class);
+            startActivity(homeIntent);
             finish();
         });
     }
@@ -143,24 +162,23 @@ public class StoryActivity extends AppCompatActivity {
 
         Page page = pageMap.get(targetId);
 
-        // If the page is a death/ending page, update flags
         if (page != null && page.isDeath()) {
             isDead = true;
             unlockedEndings.add("Ending: " + page.getId());
         }
 
-        // Auto-save if this is a loaded slot
-        if (slotId != -1) {
-            SaveData saveData = new SaveData();
-            saveData.setCurrentPageId(currPageId);
-            saveData.setVisitedPageIds(visitedPages);
-            saveData.setUnlockedEndings(unlockedEndings);
-            saveData.setDead(isDead);
-            SaveManager.saveGame(this, saveData, slotId);
-        }
+        // Always save to current slot
+        SaveData saveData = new SaveData();
+        saveData.setCurrentPageId(currPageId);
+        saveData.setVisitedPageIds(visitedPages);
+        saveData.setUnlockedEndings(unlockedEndings);
+        saveData.setDead(isDead);
+        SaveManager.saveGame(this, saveData, slotId);
+        Log.d("StoryActivity", "Auto-saved to slot " + slotId);
 
         displayPage(targetId);
     }
+
 
     /** Save the game manually */
     private void saveGame() {

@@ -39,6 +39,7 @@ public class SaveManager {
             Gson gson = new Gson();
             SaveData data = gson.fromJson(reader, SaveData.class);
             reader.close();
+            Log.d(TAG, "Loading game from: " + file.getAbsolutePath());
             return data;
         } catch (Exception e) {
             Log.e(TAG, "Error loading game from slot " + slot, e);
