@@ -1,9 +1,9 @@
 package com.kirbits.thedragonscrystal.activities;
 
+import android.view.View.OnLongClickListener;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -21,16 +21,23 @@ public class LoadGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_load_game);
 
         // Bind buttons
-        Button slot1Button = findViewById(R.id.slot1_button);
-        Button slot2Button = findViewById(R.id.slot2_button);
-        Button slot3Button = findViewById(R.id.slot3_button);
+        updateSlotButtons();
         Button homeButton = findViewById(R.id.home_button);
 
-        // Load save data for each slot
-        setupSlotButton(slot1Button, 1);
-        setupSlotButton(slot2Button, 2);
-        setupSlotButton(slot3Button, 3);
+        //Set up long press for deletion
+        for (int i =1; i <= 3; i++){
+            int slot = i;
+            Button button = findViewById(getResources().getIdentifier("button_slot" + i, "id", getPackageName()));
 
+            //Load game on click
+            button.setOnClickListener(v -> loadGame(slot));
+
+            //Delete save on long press
+            button.setOnLongClickListener(v -> {
+                showDeleteDialog(slot);
+                return true;
+            });
+        }
         // Home button click → Go back to MainMenuActivity
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainMenuActivity.class);
@@ -40,35 +47,51 @@ public class LoadGameActivity extends AppCompatActivity {
     }
 
     /**
-     * Loads the save data for a slot and updates the button text.
-     * Adds a click listener to load the game or show a message if empty.
+     * Starts StoryActivity with the save data loaded.
      */
-    private void setupSlotButton(Button button, int slot) {
-        SaveData saveData = SaveManager.loadGame(this, slot);
-
-        if (saveData != null) {
-            // Show slot as occupied with current page
-            button.setText(getString(R.string.load_slot_filled, saveData.getCurrentPageId()));
-            button.setOnClickListener(v -> loadGame(slot, saveData));
-        } else {
-            // Show slot as empty
-            button.setText(getString(R.string.load_slot_empty, slot));
-            button.setOnClickListener(v ->
-                    Toast.makeText(this, getString(R.string.no_save_data), Toast.LENGTH_SHORT).show()
-            );
+    private void loadGame(int slot) {
+        SaveData data = SaveManager.loadGame(this, slot);
+        if (data == null){
+            Toast.makeText(this,"No Save data in slot " + slot, Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        Intent intent = new Intent(this, StoryActivity.class);
+        intent.putExtra("slot", slot);
+        intent.putExtra("pageId", data.getCurrentPageId());
+        intent.putIntegerArrayListExtra("visitedPages", new java.util.ArrayList<>(data.getVisitedPageIds()));
+        intent.putStringArrayListExtra("unlockedEndings", new java.util.ArrayList<>(data.getUnlockedEndings()));
+        intent.putExtra("isDead", data.isDead());
+        startActivity(intent);
     }
 
     /**
-     * Starts StoryActivity with the save data loaded.
+     * Deletes save on long press
      */
-    private void loadGame(int slot, SaveData saveData) {
-        Intent intent = new Intent(this, StoryActivity.class);
-        intent.putExtra("slot", slot);
-        intent.putExtra("pageId", saveData.getCurrentPageId());
-        intent.putIntegerArrayListExtra("visitedPages", new java.util.ArrayList<>(saveData.getVisitedPageIds()));
-        intent.putStringArrayListExtra("unlockedEndings", new java.util.ArrayList<>(saveData.getUnlockedEndings()));
-        intent.putExtra("isDead", saveData.isDead());
-        startActivity(intent);
+
+    private void showDeleteDialog(int slot){
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Save?")
+                .setMessage("Are you sure you want to delete save slot " + slot + "? This cannot be undone.")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    SaveManager.deleteSave(this, slot);
+                    Toast.makeText(this, "Save slot " + slot + " deleted.", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+
+    //TODO add string to strings.xml and replace hardcoded string
+    private void updateSlotButtons(){
+        for (int i = 1; i <= 3; i++){
+            SaveData data = SaveManager.loadGame(this, i);
+            Button button = findViewById(getResources().getIdentifier("button_slot" + i, "id", getPackageName()));
+            if (data == null){
+                button.setText("Empty Slot "+ i);
+            }else {
+                button.setText("Continue - Page " + data.getCurrentPageId());
+            }
+        }
     }
 }

@@ -1,7 +1,11 @@
 package com.kirbits.thedragonscrystal.utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.compose.material3.AlertDialogKt;
 
 import com.google.gson.Gson;
 import com.kirbits.thedragonscrystal.models.SaveData;
@@ -50,8 +54,15 @@ public class SaveManager {
     // Delete a save file
     public static void deleteSave(Context context, int slot) {
         File file = new File(context.getFilesDir(), SLOT_FILENAMES[slot - 1]);
-        if (file.exists() && !file.delete()) {
-            Log.w(TAG, "Failed to delete save file: " + file.getName());
+        if (file.exists()) {
+            if (!file.delete()) {
+                Log.w(TAG, "Failed to delete save file: " + file.getName());
+            } else {
+                Log.d(TAG, "Deleted save file: " + file.getName());
+            }
+        } else {
+            Log.d(TAG, "No save file found to delete for slot " + slot);
         }
     }
+
 }

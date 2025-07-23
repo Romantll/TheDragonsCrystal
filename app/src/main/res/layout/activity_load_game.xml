@@ -7,20 +7,20 @@
     android:padding="24dp">
 
     <Button
-        android:id="@+id/slot1_button"
+        android:id="@+id/button_slot1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/load_slot_empty_default" />
 
     <Button
-        android:id="@+id/slot2_button"
+        android:id="@+id/button_slot2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/load_slot_empty_default" />
 
     <Button
-        android:id="@+id/slot3_button"
+        android:id="@+id/button_slot3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
