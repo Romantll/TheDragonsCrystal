@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
@@ -39,8 +40,10 @@ public class StoryActivity extends AppCompatActivity {
     private List<Integer> visitedPages = new ArrayList<>();
     private Set<String> unlockedEndings = new HashSet<>();
     private int currPageId = 0;
-    private int slotId = 1;
+    private int slotId = -1;
+    private static final int AUTO_SAVE_SLOT = 0;
     private boolean isDead = false;
+
 
     // UI components
     private TextView storyText;
@@ -97,10 +100,9 @@ public class StoryActivity extends AppCompatActivity {
             data.setUnlockedEndings(unlockedEndings);
             data.setDead(isDead);
 
-            SaveManager.saveGame(this, data, slotId);
-            Toast.makeText(this, "Game saved to slot " + slotId, Toast.LENGTH_SHORT).show();
-            Log.d("StoryActivity", "Manual save to slot " + slotId);
+            showSaveSlotDialog(data); // <-- Open popup instead of saving directly
         });
+
 
 
         // Home button listener
@@ -168,12 +170,12 @@ public class StoryActivity extends AppCompatActivity {
         }
 
         // Always save to current slot
-        SaveData saveData = new SaveData();
-        saveData.setCurrentPageId(currPageId);
-        saveData.setVisitedPageIds(visitedPages);
-        saveData.setUnlockedEndings(unlockedEndings);
-        saveData.setDead(isDead);
-        SaveManager.saveGame(this, saveData, slotId);
+        SaveData autoSave = new SaveData();
+        autoSave.setCurrentPageId(currPageId);
+        autoSave.setVisitedPageIds(visitedPages);
+        autoSave.setUnlockedEndings(unlockedEndings);
+        autoSave.setDead(isDead);
+        SaveManager.saveGame(this, autoSave, AUTO_SAVE_SLOT);
         Log.d("StoryActivity", "Auto-saved to slot " + slotId);
 
         displayPage(targetId);
@@ -196,6 +198,24 @@ public class StoryActivity extends AppCompatActivity {
         SaveManager.saveGame(this, data, slotId);
         Toast.makeText(this, getString(R.string.save_success, slotId), Toast.LENGTH_SHORT).show();
     }
+
+    /** Show a popup for selecting a manual save slot */
+    private void showSaveSlotDialog(SaveData data) {
+        String[] slotOptions = {"Slot 1", "Slot 2", "Slot 3"};
+
+        new AlertDialog.Builder(this)
+                .setTitle("Choose Save Slot")
+                .setItems(slotOptions, (dialog, which) -> {
+                    int chosenSlot = which + 1; // which = 0..2, slots are 1..3
+                    SaveManager.saveGame(this, data, chosenSlot);
+                    slotId = chosenSlot; // Track the chosen slot for future manual saves
+                    Toast.makeText(this, "Game saved to Slot " + chosenSlot, Toast.LENGTH_SHORT).show();
+                    Log.d("StoryActivity", "Manual save to slot " + chosenSlot);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
 
     /** Load background image for the current page */
     private void setBackgroundImage(String filename) {

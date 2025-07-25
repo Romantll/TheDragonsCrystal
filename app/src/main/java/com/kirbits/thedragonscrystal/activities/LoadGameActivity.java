@@ -21,6 +21,18 @@ public class LoadGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_game);
 
+        Button autoSaveButton = findViewById(R.id.button_autosave);
+        SaveData autoSave = SaveManager.loadAutoSave(this);
+
+        if (autoSave != null) {
+            autoSaveButton.setText("Auto-Save - Page " + autoSave.getCurrentPageId());
+            autoSaveButton.setEnabled(true);
+            autoSaveButton.setOnClickListener(v -> loadGame(0)); // Slot 0 reserved for Auto-Save
+        } else {
+            autoSaveButton.setText("No Auto-Save Found");
+            autoSaveButton.setEnabled(false);
+        }
+
         // Bind buttons
         updateSlotButtons();
         Button homeButton = findViewById(R.id.home_button);
@@ -51,7 +63,7 @@ public class LoadGameActivity extends AppCompatActivity {
      * Starts StoryActivity with the save data loaded.
      */
     private void loadGame(int slot) {
-        SaveData data = SaveManager.loadGame(this, slot);
+        SaveData data = (slot == 0) ? SaveManager.loadAutoSave(this) : SaveManager.loadGame(this, slot);
         if (data == null){
             Toast.makeText(this,"No Save data in slot " + slot, Toast.LENGTH_SHORT).show();
             return;
@@ -76,6 +88,7 @@ public class LoadGameActivity extends AppCompatActivity {
                 .setPositiveButton("Delete", (dialog, which) -> {
                     SaveManager.deleteSave(this, slot);
                     Toast.makeText(this, "Save slot " + slot + " deleted.", Toast.LENGTH_SHORT).show();
+                    updateSlotButtons();
                 })
                 .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                 .show();

@@ -7,10 +7,19 @@
     android:padding="24dp">
 
     <Button
+        android:id="@+id/button_autosave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/auto_save"
+        android:enabled="false"
+        android:layout_marginTop="32dp"/>
+
+    <Button
         android:id="@+id/button_slot1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/load_slot_empty_default" />
+        android:text="@string/load_slot_empty_default"
+        android:layout_marginTop="32dp"/>
 
     <Button
         android:id="@+id/button_slot2"

@@ -18,18 +18,35 @@ public class SaveManager {
 
     private static final String TAG = "SaveManager";
     private static final String[] SLOT_FILENAMES = {"save_slot1.json", "save_slot2.json", "save_slot3.json"};
+    private static final String AUTOSAVE_FILENAME = "autosave.json";
 
     // Save the game to a file
     public static void saveGame(Context context, SaveData data, int slot) {
         try {
-            File file = new File(context.getFilesDir(), SLOT_FILENAMES[slot - 1]);
+            File file = (slot == 0)
+                    ? new File(context.getFilesDir(), AUTOSAVE_FILENAME)
+                    : new File(context.getFilesDir(), SLOT_FILENAMES[slot - 1]);
             FileWriter writer = new FileWriter(file);
-            Gson gson = new Gson();
-            gson.toJson(data, writer);
+            new Gson().toJson(data, writer);
             writer.close();
-            Log.d(TAG, "Game saved successfully to slot " + slot);
+            Log.d(TAG, "Game saved successfully to " + (slot == 0 ? "Auto-Save" : "slot " + slot));
         } catch (Exception e) {
-            Log.e(TAG, "Error saving game to slot " + slot, e);
+            Log.e(TAG, "Error saving game", e);
+        }
+    }
+
+
+
+    //Auto Save
+    public static void saveAuto(Context context, SaveData data) {
+        try {
+            File file = new File(context.getFilesDir(), AUTOSAVE_FILENAME);
+            FileWriter writer = new FileWriter(file);
+            new Gson().toJson(data, writer);
+            writer.close();
+            Log.d(TAG, "Auto-saved successfully");
+        } catch (Exception e) {
+            Log.e(TAG, "Error auto-saving game", e);
         }
     }
 
@@ -47,6 +64,20 @@ public class SaveManager {
             return data;
         } catch (Exception e) {
             Log.e(TAG, "Error loading game from slot " + slot, e);
+            return null;
+        }
+    }
+
+    public static SaveData loadAutoSave(Context context) {
+        try {
+            File file = new File(context.getFilesDir(), AUTOSAVE_FILENAME);
+            if (!file.exists()) return null;
+            FileReader reader = new FileReader(file);
+            SaveData data = new Gson().fromJson(reader, SaveData.class);
+            reader.close();
+            return data;
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading auto-save", e);
             return null;
         }
     }
