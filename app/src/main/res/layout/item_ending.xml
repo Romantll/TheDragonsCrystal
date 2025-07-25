@@ -13,9 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Ending"
+        android:text="Ending Name"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
 </androidx.cardview.widget.CardView>

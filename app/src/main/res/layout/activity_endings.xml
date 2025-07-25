@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/no_data_text"
@@ -12,11 +10,11 @@
         android:text="No save data found."
         android:visibility="gone"
         android:textSize="18sp"
-        android:layout_gravity="center_horizontal"
-        android:padding="16dp"/>
+        android:layout_gravity="center" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_nodes"
+    <com.kirbits.thedragonscrystal.views.FlowChartView
+        android:id="@+id/flow_chart_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:background="#222"/>
+</FrameLayout>

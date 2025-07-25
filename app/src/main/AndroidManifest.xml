@@ -18,10 +18,19 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activities.EndingsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
         <!-- Other activities -->
         <activity android:name=".activities.StoryActivity" />
         <activity android:name=".activities.LoadGameActivity" />
-        <activity android:name=".activities.EndingsActivity" />
         <activity android:name=".activities.SettingsActivity" />
 
 

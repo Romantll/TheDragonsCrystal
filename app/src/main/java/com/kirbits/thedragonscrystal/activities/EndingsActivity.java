@@ -1,28 +1,25 @@
 package com.kirbits.thedragonscrystal.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.kirbits.thedragonscrystal.R;
+import com.kirbits.thedragonscrystal.models.FlowNode;
 import com.kirbits.thedragonscrystal.models.SaveData;
-import com.kirbits.thedragonscrystal.models.Node;
-import com.kirbits.thedragonscrystal.adapters.NodeAdapter;
 import com.kirbits.thedragonscrystal.utils.SaveManager;
+import com.kirbits.thedragonscrystal.views.FlowChartView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class EndingsActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private NodeAdapter adapter;
+    private FlowChartView flowChartView;
     private TextView noDataText;
 
     @Override
@@ -30,43 +27,63 @@ public class EndingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_endings);
 
-        recyclerView = findViewById(R.id.recycler_view_nodes);
+        flowChartView = findViewById(R.id.flow_chart_view);
         noDataText = findViewById(R.id.no_data_text);
 
-        // Load the latest save (slot 1 by default for now)
+        // Load autosave by default (slot 0) or change this to load latest manual slot
         SaveData saveData = SaveManager.loadGame(this, 1);
-
+        android.util.Log.d("FlowChartDebug", "SaveData loaded: " + (saveData != null));
         if (saveData == null) {
-            // No save data exists
+            android.util.Log.d("FlowChartDebug", "No save data found, showing no data text");
+            // No save data found
             noDataText.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+            flowChartView.setNodes(new ArrayList<>());  // <-- prevent null crash
+            flowChartView.setVisibility(View.GONE);
             return;
         }
 
-        // Build a list of nodes based on visited pages and endings
-        List<Node> nodes = buildNodeList(saveData);
 
-        // Set up RecyclerView
-        adapter = new NodeAdapter(nodes);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(adapter);
+        // Convert SaveData into FlowNodes for the flowchart
+        List<FlowNode> nodes = buildFlowNodes(saveData);
+
+        // Pass nodes to custom view for drawing
+        flowChartView.setNodes(nodes);
     }
 
     /**
-     * Converts SaveData into a list of Nodes for the flowchart.
+     * Builds a list of FlowNodes for the flowchart.
+     * @param saveData The saved game data.
+     * @return List of FlowNodes for rendering.
      */
-    private List<Node> buildNodeList(SaveData saveData) {
-        List<Node> nodes = new ArrayList<>();
-        for (int pageId : saveData.getVisitedPageIds()) {
-            boolean isEnding = saveData.getUnlockedEndings().contains("Ending: " + pageId);
-            nodes.add(new Node(pageId, isEnding, true));  // visited page
+    private List<FlowNode> buildFlowNodes(SaveData saveData) {
+        android.util.Log.d("FlowChartDebug", "Building flow nodes...");
+        List<FlowNode> nodes = new ArrayList<>();
+        for (FlowNode node : nodes) {
+            android.util.Log.d("FlowChartDebug",
+                    "Node " + node.getId() + " at (" + node.getX() + "," + node.getY() +
+                            ") visited=" + node.isVisited() + " ending=" + node.isEnding());
         }
+        Set<Integer> visited = new java.util.HashSet<>(saveData.getVisitedPageIds());
+        Set<String> endings = saveData.getUnlockedEndings();
 
-        // Add a placeholder for unexplored nodes (example: "?")
-        for (int i = nodes.size(); i < 30; i++) { // 30 is arbitrary; you can base it on total pages
-            nodes.add(new Node(i, false, false)); // unexplored
+        // Each page will be spaced out on a grid, 3 per row.
+        int xSpacing = 300; // horizontal spacing
+        int ySpacing = 300; // vertical spacing
+        int columns = 3;
+
+        for (int i = 0; i < 30; i++) { // Assume 30 pages max, adjust as needed
+            boolean isVisited = visited.contains(i);
+            boolean isEnding = endings.contains("Ending: " + i);
+
+            int x = i % columns;  // grid column index
+            int y = i / columns;  // grid row index
+
+
+            FlowNode node = new FlowNode(i, x, y, isVisited, isEnding);
+            nodes.add(node);
+
         }
-
+        android.util.Log.d("FlowChartDebug", "Built " + nodes.size() + " nodes.");
         return nodes;
     }
 }
