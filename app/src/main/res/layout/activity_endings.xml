@@ -8,13 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No save data found."
-        android:visibility="gone"
         android:textSize="18sp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
-    <com.kirbits.thedragonscrystal.views.FlowChartView
-        android:id="@+id/flow_chart_view"
+    <!-- Graph view container -->
+    <FrameLayout
+        android:id="@+id/graph_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#222"/>
+        android:layout_height="match_parent"/>
 </FrameLayout>
+

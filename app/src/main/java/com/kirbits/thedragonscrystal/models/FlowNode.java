@@ -22,6 +22,21 @@ public class FlowNode {
         this.children = children;
     }
 
+    public static List<FlowNode> buildFromSave(SaveData saveData) {
+        List<FlowNode> nodes = new java.util.ArrayList<>();
+        java.util.Set<Integer> visited = new java.util.HashSet<>(saveData.getVisitedPageIds());
+        java.util.Set<String> endings = saveData.getUnlockedEndings();
+
+        // Example: Generate 30 nodes. Replace with dynamic if needed.
+        for (int i = 0; i < 30; i++) {
+            boolean isVisited = visited.contains(i);
+            boolean isEnding = endings.contains("Ending: " + i);
+            nodes.add(new FlowNode(i, i % 5, i / 5, isVisited, isEnding)); // X/Y for layout
+        }
+        return nodes;
+    }
+
+
     // Overloaded constructor without label (defaults label to id)
     public FlowNode(int id, int x, int y, boolean visited, boolean ending, List<Integer> children) {
         this(id, x, y, visited, ending, String.valueOf(id), children);

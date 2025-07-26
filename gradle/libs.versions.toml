@@ -3,6 +3,7 @@ agp = "8.11.1"
 cardview = "1.0.0"
 gson = "2.13.1"
 gsonVersion = "2.10.1"
+jgraphx = "4.2.2"
 kotlin = "2.0.21"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -19,6 +20,7 @@ androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "card
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 gson-v2101 = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
+jgraphx = { module = "com.github.vlsi.mxgraph:jgraphx", version.ref = "jgraphx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

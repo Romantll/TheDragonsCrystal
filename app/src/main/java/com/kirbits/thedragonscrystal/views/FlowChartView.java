@@ -6,25 +6,30 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.kirbits.thedragonscrystal.models.FlowNode;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class FlowChartView extends View {
     private List<FlowNode> nodes;
     private Paint nodePaint, textPaint, linePaint;
+
     private float offsetX = 0, offsetY = 0;
     private float scale = 1.0f;
     private float lastTouchX, lastTouchY;
-    private boolean firstLayout = true;
+    private ScaleGestureDetector scaleDetector;
 
-    public FlowChartView(Context context, AttributeSet attrs) {
+    private int nodeRadius = 80;
+    private int horizontalSpacing = 400;
+    private int verticalSpacing = 250;
+
+    public FlowChartView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -33,48 +38,49 @@ public class FlowChartView extends View {
         nodePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(30f);
+        textPaint.setTextSize(36f);
+        textPaint.setTextAlign(Paint.Align.CENTER);
 
         linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        linePaint.setColor(Color.RED);
-        linePaint.setStrokeWidth(5f);
+        linePaint.setColor(Color.WHITE);
+        linePaint.setStrokeWidth(6f);
+
+        // Handle pinch zoom
+        scaleDetector = new ScaleGestureDetector(getContext(), new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            @Override
+            public boolean onScale(ScaleGestureDetector detector) {
+                scale *= detector.getScaleFactor();
+                scale = Math.max(0.3f, Math.min(scale, 3.0f)); // clamp zoom
+                invalidate();
+                return true;
+            }
+        });
     }
 
     public void setNodes(List<FlowNode> nodes) {
-        this.nodes = Objects.requireNonNullElseGet(nodes, ArrayList::new);
-        firstLayout = true;  // trigger auto-center on next draw
+        this.nodes = Objects.requireNonNullElse(nodes, java.util.Collections.emptyList());
         invalidate();
     }
 
     @Override
-    protected void onDraw(@NonNull Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (nodes == null || nodes.isEmpty()) return;
-
-        if (firstLayout) {
-            autoFitAndCenter();
-            firstLayout = false;
-        }
 
         canvas.save();
         canvas.translate(offsetX, offsetY);
         canvas.scale(scale, scale);
 
-        int radius = 80;
-        int spacingX = 200;
-        int spacingY = 200;
-
-        // Draw connections
+        // Draw edges first
         for (FlowNode node : nodes) {
-            List<Integer> children = node.getChildren();
-            if (children == null) continue;
-            for (int childId : children) {
+            if (node.getChildren() == null) continue;
+            for (int childId : node.getChildren()) {
                 FlowNode child = findNodeById(childId);
                 if (child != null) {
-                    float startX = node.getX() * spacingX + radius;
-                    float startY = node.getY() * spacingY + radius;
-                    float endX = child.getX() * spacingX + radius;
-                    float endY = child.getY() * spacingY + radius;
+                    float startX = node.getX() * horizontalSpacing;
+                    float startY = node.getY() * verticalSpacing;
+                    float endX = child.getX() * horizontalSpacing;
+                    float endY = child.getY() * verticalSpacing;
                     canvas.drawLine(startX, startY, endX, endY, linePaint);
                 }
             }
@@ -82,20 +88,22 @@ public class FlowChartView extends View {
 
         // Draw nodes
         for (FlowNode node : nodes) {
-            int cx = node.getX() * spacingX;
-            int cy = node.getY() * spacingY;
+            float cx = node.getX() * horizontalSpacing;
+            float cy = node.getY() * verticalSpacing;
 
+            // Color based on state
             if (node.isEnding()) {
-                nodePaint.setColor(Color.parseColor("#FFD700")); // gold
+                nodePaint.setColor(Color.parseColor("#FFD700")); // gold for endings
             } else if (node.isVisited()) {
-                nodePaint.setColor(Color.parseColor("#8A2BE2")); // purple
+                nodePaint.setColor(Color.parseColor("#8A2BE2")); // purple for visited
             } else {
                 nodePaint.setColor(Color.GRAY);
             }
 
-            canvas.drawCircle(cx, cy, radius, nodePaint);
-            canvas.drawText(node.isVisited() ? String.valueOf(node.getId()) : "?", cx - 20, cy + 10, textPaint);
+            canvas.drawCircle(cx, cy, nodeRadius, nodePaint);
+            canvas.drawText(node.getLabel(), cx, cy + 12, textPaint);
         }
+
         canvas.restore();
     }
 
@@ -106,59 +114,28 @@ public class FlowChartView extends View {
         return null;
     }
 
-    /** Auto-fit the flowchart inside the screen and center it */
-    private void autoFitAndCenter() {
-        if (nodes == null || nodes.isEmpty()) return;
-
-        int spacingX = 200;
-        int spacingY = 200;
-        int radius = 80;
-
-        // Find bounds of all nodes
-        int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
-        int minY = Integer.MAX_VALUE, maxY = Integer.MIN_VALUE;
-
-        for (FlowNode node : nodes) {
-            int x = node.getX() * spacingX;
-            int y = node.getY() * spacingY;
-            minX = Math.min(minX, x);
-            maxX = Math.max(maxX, x);
-            minY = Math.min(minY, y);
-            maxY = Math.max(maxY, y);
-        }
-
-        int chartWidth = (maxX - minX) + radius * 2;
-        int chartHeight = (maxY - minY) + radius * 2;
-
-        // Calculate scale to fit screen (with padding)
-        float scaleX = (float) getWidth() / (chartWidth * 1.2f);
-        float scaleY = (float) getHeight() / (chartHeight * 1.2f);
-        scale = Math.min(scaleX, scaleY);
-
-        // Center the chart
-        offsetX = getWidth() / 2f - ((minX + maxX) / 2f) * scale;
-        offsetY = getHeight() / 2f - ((minY + maxY) / 2f) * scale;
-    }
-
-    // Dragging
+    // Handle panning & zooming
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        scaleDetector.onTouchEvent(event);
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 lastTouchX = event.getX();
                 lastTouchY = event.getY();
                 return true;
-
             case MotionEvent.ACTION_MOVE:
-                float dx = event.getX() - lastTouchX;
-                float dy = event.getY() - lastTouchY;
-                offsetX += dx;
-                offsetY += dy;
+                if (!scaleDetector.isInProgress()) {
+                    float dx = event.getX() - lastTouchX;
+                    float dy = event.getY() - lastTouchY;
+                    offsetX += dx;
+                    offsetY += dy;
+                    invalidate();
+                }
                 lastTouchX = event.getX();
                 lastTouchY = event.getY();
-                invalidate();
                 return true;
         }
-        return super.onTouchEvent(event);
+        return true;
     }
 }
