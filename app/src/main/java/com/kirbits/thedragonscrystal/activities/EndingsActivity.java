@@ -71,33 +71,40 @@ public class EndingsActivity extends AppCompatActivity {
         }
     }
 
-    /** Build FlowNodes and assign tree layout positions */
+    /** Build nodes from SaveData + JSON connections */
     private List<FlowNode> buildFlowNodes(SaveData saveData) {
         List<FlowNode> nodes = new ArrayList<>();
         Map<Integer, FlowNode> nodeMap = new HashMap<>();
 
+        // Load story pages
         List<Page> pages = loadStoryPages();
         Set<Integer> visited = new HashSet<>(saveData.getVisitedPageIds());
         Set<String> endings = saveData.getUnlockedEndings();
+        Set<Integer> globallyUnlocked = saveData.getGloballyUnlockedPages();
+        if (globallyUnlocked == null) globallyUnlocked = new HashSet<>();
 
-        // Step 1: Create FlowNode for every page
+        // Step 1: Include globally unlocked pages + endings/deaths (always visible once reached)
         for (Page page : pages) {
-            boolean isVisited = visited.contains(page.getId());
             boolean isEnding = endings.contains("Ending: " + page.getId());
             boolean isDeath = page.isDeath();
+            boolean includeNode = globallyUnlocked.contains(page.getId()) || isEnding || isDeath;
+
+            if (!includeNode) continue; // Skip fully locked pages
+
+            boolean isVisited = visited.contains(page.getId());
 
             FlowNode node = new FlowNode(page.getId(), 0, 0, isVisited, isEnding);
             node.setDeath(isDeath);
-            node.setChildren(new ArrayList<>());
 
+            node.setChildren(new ArrayList<>());
             nodes.add(node);
             nodeMap.put(page.getId(), node);
         }
 
-        // Step 2: Add connections (choices)
+        // Step 2: Add connections (only to children that are also unlocked/visible)
         for (Page page : pages) {
+            if (!nodeMap.containsKey(page.getId())) continue;
             FlowNode parentNode = nodeMap.get(page.getId());
-            if (parentNode == null) continue;
 
             if (page.getChoice1Target() != null && nodeMap.containsKey(page.getChoice1Target())) {
                 parentNode.getChildren().add(page.getChoice1Target());
@@ -118,6 +125,7 @@ public class EndingsActivity extends AppCompatActivity {
 
         return nodes;
     }
+
 
     /** Recursive tree layout with horizontal main path */
     private int assignCoordinates(Map<Integer, FlowNode> nodeMap, int nodeId, int depth, int offset, Set<Integer> visited) {

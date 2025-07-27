@@ -8,7 +8,7 @@ public class FlowNode {
     private int y;
     private boolean visited;
     private boolean ending;
-    private boolean death; // <-- NEW
+    private boolean death;
     private String label;
     private List<Integer> children;
 
@@ -35,7 +35,7 @@ public class FlowNode {
     public int getY() { return y; }
     public boolean isVisited() { return visited; }
     public boolean isEnding() { return ending; }
-    public boolean isDeath() { return death; }  // <-- NEW
+    public boolean isDeath() { return death; }
     public String getLabel() { return label; }
     public List<Integer> getChildren() { return children; }
 
@@ -44,5 +44,5 @@ public class FlowNode {
     public void setY(int y) { this.y = y; }
     public void setLabel(String label) { this.label = label; }
     public void setChildren(List<Integer> children) { this.children = children; }
-    public void setDeath(boolean death) { this.death = death; } // <-- NEW
+    public void setDeath(boolean death) { this.death = death; }
 }

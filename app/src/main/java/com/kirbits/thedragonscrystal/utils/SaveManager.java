@@ -3,7 +3,7 @@ package com.kirbits.thedragonscrystal.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.Toast; //Debug use
 
 import androidx.compose.material3.AlertDialogKt;
 
@@ -13,6 +13,8 @@ import com.kirbits.thedragonscrystal.models.SaveData;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SaveManager {
 
@@ -23,6 +25,19 @@ public class SaveManager {
     // Save the game to a file
     public static void saveGame(Context context, SaveData data, int slot) {
         try {
+            // Load existing save first (if any)
+            SaveData existing = loadGame(context, slot);
+            if (existing != null) {
+                // Merge globally unlocked pages
+                Set<Integer> mergedUnlocked = new HashSet<>();
+                if (existing.getGloballyUnlockedPages() != null)
+                    mergedUnlocked.addAll(existing.getGloballyUnlockedPages());
+                if (data.getGloballyUnlockedPages() != null)
+                    mergedUnlocked.addAll(data.getGloballyUnlockedPages());
+                data.setGloballyUnlockedPages(mergedUnlocked);
+            }
+
+            // Save to file
             File file = (slot == 0)
                     ? new File(context.getFilesDir(), AUTOSAVE_FILENAME)
                     : new File(context.getFilesDir(), SLOT_FILENAMES[slot - 1]);
@@ -34,6 +49,7 @@ public class SaveManager {
             Log.e(TAG, "Error saving game", e);
         }
     }
+
 
 
 

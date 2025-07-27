@@ -9,12 +9,14 @@ public class SaveData {
     private int currentPageId;
     private List<Integer> visitedPageIds;
     private Set<String> unlockedEndings;
+    private Set<Integer> globallyUnlockedPages;
     private boolean isDead;
 
     public SaveData() {
         this.currentPageId = 0;
         this.visitedPageIds = new ArrayList<>();
         this.unlockedEndings = new HashSet<>();
+        this.globallyUnlockedPages = new HashSet<>();
         this.isDead = false;
     }
 
@@ -44,6 +46,14 @@ public class SaveData {
 
     public void unlockEnding(String endingId) {
         unlockedEndings.add(endingId);
+    }
+
+    public void setGloballyUnlockedPages(Set<Integer> globallyUnlockedPages){
+        this.globallyUnlockedPages = globallyUnlockedPages;
+    }
+
+    public Set<Integer> getGloballyUnlockedPages() {
+        return globallyUnlockedPages;
     }
 
     public boolean isDead() {

@@ -76,12 +76,12 @@ public class FlowChartView extends View {
         for (FlowNode node : nodes) {
             if (node.isEnding()) {
                 nodePaint.setColor(Color.parseColor("#FFD700")); // Gold for endings
-            } else if (node.isVisited()) {
-                nodePaint.setColor(Color.parseColor("#8A2BE2")); // Purple for visited
             } else if (node.isDeath()) {
                 nodePaint.setColor(Color.RED); // Red for death nodes
+            } else if (node.isVisited()) {
+                nodePaint.setColor(Color.parseColor("#8A2BE2")); // Purple for visited
             } else {
-                nodePaint.setColor(Color.GRAY);
+                nodePaint.setColor(Color.LTGRAY); // Light gray for unlocked but not visited
             }
 
             canvas.drawCircle(node.getX(), node.getY(), radius, nodePaint);

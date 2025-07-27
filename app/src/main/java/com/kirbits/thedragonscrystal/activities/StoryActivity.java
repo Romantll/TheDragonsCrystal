@@ -100,7 +100,7 @@ public class StoryActivity extends AppCompatActivity {
             data.setUnlockedEndings(unlockedEndings);
             data.setDead(isDead);
 
-            showSaveSlotDialog(data); // <-- Open popup instead of saving directly
+            showSaveSlotDialog(data); // Open popup instead of saving directly
         });
 
 
@@ -133,9 +133,9 @@ public class StoryActivity extends AppCompatActivity {
     }
 
     /** Update the screen to show a specific page */
+    /** Update the screen to show a specific page */
     private void displayPage(int pageId) {
         Page page = pageMap.get(pageId);
-
         if (page == null) {
             Log.e("StoryActivity", "Page ID not found: " + pageId);
             return;
@@ -145,17 +145,33 @@ public class StoryActivity extends AppCompatActivity {
         storyText.setText(page.getText());
         setBackgroundImage(page.getBackground());
 
-        // Show/hide choice buttons
-        if (page.getChoice1Text() != null && page.getChoice2Text() != null) {
-            choice1.setText(page.getChoice1Text());
-            choice2.setText(page.getChoice2Text());
+        if (page.isDeath()) {
+            // Death page: Show only one "Continue" button
+            choice1.setText("Continue");
             choice1.setVisibility(View.VISIBLE);
-            choice2.setVisibility(View.VISIBLE);
-        } else {
-            choice1.setVisibility(View.GONE);
             choice2.setVisibility(View.GONE);
+            saveButton.setVisibility(View.GONE);
+
+            choice1.setOnClickListener(v -> showDeathDialog());
+        } else {
+            // Normal page: Show two choices
+            if (page.getChoice1Text() != null && page.getChoice2Text() != null) {
+                choice1.setText(page.getChoice1Text());
+                choice2.setText(page.getChoice2Text());
+                choice1.setVisibility(View.VISIBLE);
+                choice2.setVisibility(View.VISIBLE);
+                saveButton.setVisibility(View.VISIBLE);
+
+                choice1.setOnClickListener(v -> goToPage(page.getChoice1Target()));
+                choice2.setOnClickListener(v -> goToPage(page.getChoice2Target()));
+            } else {
+                choice1.setVisibility(View.GONE);
+                choice2.setVisibility(View.GONE);
+            }
         }
     }
+
+
 
     /** Move to the selected page, updating save state */
     private void goToPage(int targetId) {
@@ -167,9 +183,18 @@ public class StoryActivity extends AppCompatActivity {
         if (page != null && page.isDeath()) {
             isDead = true;
             unlockedEndings.add("Ending: " + page.getId());
+
+            // Save progress immediately
+            SaveData autoSave = new SaveData();
+            autoSave.setCurrentPageId(currPageId);
+            autoSave.setVisitedPageIds(visitedPages);
+            autoSave.setUnlockedEndings(unlockedEndings);
+            autoSave.setDead(isDead);
+            SaveManager.saveGame(this, autoSave, AUTO_SAVE_SLOT);
+
         }
 
-        // Always save to current slot
+        // Save normally if not dead
         SaveData autoSave = new SaveData();
         autoSave.setCurrentPageId(currPageId);
         autoSave.setVisitedPageIds(visitedPages);
@@ -181,23 +206,6 @@ public class StoryActivity extends AppCompatActivity {
         displayPage(targetId);
     }
 
-
-    /** Save the game manually */
-    private void saveGame() {
-        if (slotId == -1) {
-            Toast.makeText(this, "No save slot selected.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        SaveData data = new SaveData();
-        data.setCurrentPageId(currPageId);
-        data.setVisitedPageIds(visitedPages);
-        data.setUnlockedEndings(unlockedEndings);
-        data.setDead(isDead);
-
-        SaveManager.saveGame(this, data, slotId);
-        Toast.makeText(this, getString(R.string.save_success, slotId), Toast.LENGTH_SHORT).show();
-    }
 
     /** Show a popup for selecting a manual save slot */
     private void showSaveSlotDialog(SaveData data) {
@@ -228,4 +236,32 @@ public class StoryActivity extends AppCompatActivity {
             Log.e("StoryActivity", "Error loading background image: " + filename, e);
         }
     }
+
+    /** Show dialog after pressing Continue on death page */
+    private void showDeathDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("You Died!")
+                .setMessage("Would you like to restart and keep your unlocked paths?")
+                .setPositiveButton("Restart", (dialog, which) -> {
+                    isDead = false;
+                    currPageId = 0;
+                    visitedPages.clear();
+                    // Save with meta-progression intact
+                    SaveData saveData = new SaveData();
+                    saveData.setCurrentPageId(currPageId);
+                    saveData.setVisitedPageIds(visitedPages);
+                    saveData.setUnlockedEndings(unlockedEndings);
+                    saveData.setDead(false);
+                    SaveManager.saveGame(this, saveData, AUTO_SAVE_SLOT);
+                    displayPage(currPageId);
+                })
+                .setNegativeButton("Main Menu", (dialog, which) -> {
+                    startActivity(new Intent(this, MainMenuActivity.class));
+                    finish();
+                })
+                .setCancelable(false)
+                .show();
+    }
+
+
 }
