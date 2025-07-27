@@ -4,9 +4,9 @@ public class Page {
     public int id;
     public String text;
     public String choice_1_text;
-    public int choice_1_target;
+    public Integer choice_1_target;
     public String choice_2_text;
-    public int choice_2_target;
+    public Integer choice_2_target;
     public String background;
     private  boolean death;
 
@@ -35,7 +35,7 @@ public class Page {
         return choice_1_text;
     }
 
-    public int getChoice1Target() {
+    public Integer getChoice1Target() {
         return choice_1_target;
     }
 
@@ -43,7 +43,7 @@ public class Page {
         return choice_2_text;
     }
 
-    public int getChoice2Target() {
+    public Integer getChoice2Target() {
         return choice_2_target;
     }
 
