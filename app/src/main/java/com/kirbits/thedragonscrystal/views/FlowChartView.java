@@ -124,12 +124,13 @@ public class FlowChartView extends View {
         for (FlowNode n : nodes) {
             // color based on state
             if (n.isVisited()) {
-                if (n.isEnding())      nodePaint.setColor(0xFFFFD700); // gold
-                else if (n.isDeath())  nodePaint.setColor(Color.RED);
+                if (n.isDeath())      nodePaint.setColor(Color.RED);
+                else if (n.isEnding()) nodePaint.setColor(0xFFFFD700); // gold
                 else                   nodePaint.setColor(0xFF8A2BE2); // purple
             } else {
                 nodePaint.setColor(Color.DKGRAY);
             }
+
 
             canvas.drawCircle(n.getX(), n.getY(), radius, nodePaint);
 

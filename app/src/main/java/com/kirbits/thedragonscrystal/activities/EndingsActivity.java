@@ -44,13 +44,22 @@ public class EndingsActivity extends AppCompatActivity {
         flowChartView = findViewById(R.id.flow_chart_view);
         noDataText     = findViewById(R.id.no_data_text);
 
-        // Load manual slot 1 for now
-        SaveData saveData = SaveManager.loadGame(this, 1);
+        // Load correct slot (default to 1 if none provided)
+        int slot = getIntent().getIntExtra("slot", 1);
+        SaveData saveData = SaveManager.loadGame(this, slot);
+
         if (saveData == null) {
             noDataText.setVisibility(View.VISIBLE);
             flowChartView.setVisibility(View.GONE);
+            Log.d("FlowDebug", "No save data found for slot " + slot);
             return;
         }
+
+        // Debug: Show what data we’re using
+        Log.d("FlowDebug", "=== EndingsActivity Data ===");
+        Log.d("FlowDebug", "Visited pages: " + saveData.getVisitedPageIds());
+        Log.d("FlowDebug", "Global pages: " + saveData.getGloballyUnlockedPages());
+        Log.d("FlowDebug", "Unlocked endings: " + saveData.getUnlockedEndings());
 
         // Build & lay out only the subgraph the player has discovered
         List<FlowNode> nodes = buildFlowNodes(saveData);
@@ -58,6 +67,7 @@ public class EndingsActivity extends AppCompatActivity {
         flowChartView.setNodes(nodes);
         flowChartView.invalidate();
     }
+
 
     /** Load story.json from assets into a List<Page> */
     private List<Page> loadStoryPages() {
