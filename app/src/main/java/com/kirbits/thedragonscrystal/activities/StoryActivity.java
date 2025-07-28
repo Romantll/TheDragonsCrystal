@@ -133,7 +133,6 @@ public class StoryActivity extends AppCompatActivity {
     }
 
     /** Update the screen to show a specific page */
-    /** Update the screen to show a specific page */
     private void displayPage(int pageId) {
         Page page = pageMap.get(pageId);
         if (page == null) {
@@ -152,7 +151,12 @@ public class StoryActivity extends AppCompatActivity {
             choice2.setVisibility(View.GONE);
             saveButton.setVisibility(View.GONE);
 
-            choice1.setOnClickListener(v -> showDeathDialog());
+            choice1.setOnClickListener(v -> showRestartDialog(
+                    page.isDeath() ? "You Died!" : "The End!",
+                    page.isDeath() ? "Would you like to restart and keep your unlocked paths?" :
+                            "Would you like to restart and keep your unlocked paths?"
+            ));
+
         } else {
             // Normal page: Show two choices
             if (page.getChoice1Text() != null && page.getChoice2Text() != null) {
@@ -188,54 +192,54 @@ public class StoryActivity extends AppCompatActivity {
             return;
         }
 
-        // === Determine if this is a death page or a true ending ===
+        // Determine page type
         boolean isPageDeath = page.isDeath();
         boolean isTrueEnding = !isPageDeath && page.getChoice1Target() == null && page.getChoice2Target() == null;
 
-        if (isPageDeath) {
-            isDead = true;
-            Log.d("SaveDebug", "Reached death page: " + page.getId());
+        // Save progress for all cases
+        if (isTrueEnding) {
+            unlockedEndings.add("Ending: " + page.getId());
+            Log.d("SaveDebug", "Unlocked true ending: Ending: " + page.getId());
+        }
+        isDead = isPageDeath;
+        saveProgress(AUTO_SAVE_SLOT);
 
-            if (isTrueEnding) {
-                unlockedEndings.add("Ending: " + page.getId());
-                Log.d("SaveDebug", "Unlocked true ending (death page also final): Ending: " + page.getId());
-            }
+        // Always show the page content first
+        displayPage(currPageId);
 
-            // Save immediately (death progress)
-            SaveData autoSave = new SaveData();
-            autoSave.setCurrentPageId(currPageId);
-            autoSave.setVisitedPageIds(new ArrayList<>(visitedPages));
-            autoSave.setUnlockedEndings(new HashSet<>(unlockedEndings));
-            autoSave.setGloballyUnlockedPages(new HashSet<>(visitedPages));
-            autoSave.setDead(isDead);
-            SaveManager.saveGame(this, autoSave, AUTO_SAVE_SLOT);
+        // Handle Death or Ending Pages
+        if (isPageDeath || isTrueEnding) {
+            // Replace choices with a single "Continue" button
+            choice1.setText("Continue");
+            choice1.setVisibility(View.VISIBLE);
+            choice2.setVisibility(View.GONE);
+            saveButton.setVisibility(View.GONE);
 
-            // Show death dialog after showing the death page text
-            displayPage(currPageId);
+            // When tapped, show the restart dialog
+            choice1.setOnClickListener(v -> showRestartDialog(
+                    isPageDeath ? "You Died!" : "The End!",
+                    "Would you like to restart and keep your unlocked paths?"
+            ));
             return;
         }
 
-        // === If it's a true ending (non-death final page), unlock it ===
-        if (isTrueEnding) {
-            if (!unlockedEndings.contains("Ending: " + page.getId())) {
-                unlockedEndings.add("Ending: " + page.getId());
-                Log.d("SaveDebug", "Unlocked new ending: Ending: " + page.getId());
-            }
-        }
-
-        // === Save normal progress ===
-        SaveData autoSave = new SaveData();
-        autoSave.setCurrentPageId(currPageId);
-        autoSave.setVisitedPageIds(new ArrayList<>(visitedPages));
-        autoSave.setUnlockedEndings(new HashSet<>(unlockedEndings));
-        autoSave.setGloballyUnlockedPages(new HashSet<>(visitedPages));
-        autoSave.setDead(isDead);
-        SaveManager.saveGame(this, autoSave, AUTO_SAVE_SLOT);
-        Log.d("SaveDebug", "Auto-saved to slot " + slotId + " | Page: " + currPageId);
-
-        // Finally, show the new page
-        displayPage(targetId);
+        // Handle Normal Page
+        choice1.setOnClickListener(v -> goToPage(page.getChoice1Target()));
+        choice2.setOnClickListener(v -> goToPage(page.getChoice2Target()));
     }
+
+
+    /** Saves progress to a slot (keeps global progress) **/
+    private void saveProgress(int slot) {
+        SaveData data = new SaveData();
+        data.setCurrentPageId(currPageId);
+        data.setVisitedPageIds(new ArrayList<>(visitedPages));
+        data.setUnlockedEndings(new HashSet<>(unlockedEndings));
+        data.setGloballyUnlockedPages(new HashSet<>(visitedPages)); // Merge visited into global
+        data.setDead(isDead);
+        SaveManager.saveGame(this, data, slot);
+    }
+
 
 
     /** Show a popup for selecting a manual save slot */
@@ -268,14 +272,17 @@ public class StoryActivity extends AppCompatActivity {
         }
     }
 
-    /** Show dialog after pressing Continue on death page */
-    private void showDeathDialog() {
+    /** Unified restart dialog for deaths and endings */
+    private void showRestartDialog(String title, String message) {
         new AlertDialog.Builder(this)
-                .setTitle("You Died!")
-                .setMessage("Would you like to restart and keep your unlocked paths?")
+                .setTitle(title)
+                .setMessage(message)
                 .setPositiveButton("Restart", (dialog, which) -> {
-                    // Prompt for manual save slot before restart
-                    showSaveSlotDialogForRestart();
+                    isDead = false;
+                    currPageId = 0;
+                    visitedPages.clear();
+                    showSaveSlotDialogForRestart(); // Ask which slot to save to
+                    displayPage(currPageId);
                 })
                 .setNegativeButton("Main Menu", (dialog, which) -> {
                     startActivity(new Intent(this, MainMenuActivity.class));
@@ -284,6 +291,7 @@ public class StoryActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .show();
     }
+
 
     /** Show popup to select a slot for meta-progression on restart */
     private void showSaveSlotDialogForRestart() {
