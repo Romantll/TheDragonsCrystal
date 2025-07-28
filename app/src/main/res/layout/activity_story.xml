@@ -26,8 +26,12 @@
             android:layout_height="202dp"
             android:paddingBottom="24dp"
             android:textSize="18sp"
+            android:textColor="@color/white"
+            android:padding="16dp"
             android:layout_marginTop="240dp"
-            android:background="@drawable/button_purple_rounded"/>
+            android:background="@drawable/button_purple_rounded"
+            android:gravity="center"
+            />
 
         <Button
             android:id="@+id/choice1_button"
@@ -60,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
-        android:layout_margin="16dp"
+        android:layout_margin="17dp"
         android:orientation="horizontal"
         android:gravity="end">
 
@@ -77,6 +81,6 @@
             android:layout_height="40dp"
             android:background="@drawable/button_home2"
             android:scaleType="centerInside"
-            android:layout_marginStart="6dp"/>
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
 </FrameLayout>
