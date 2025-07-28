@@ -20,7 +20,7 @@
         android:padding="24dp"
         android:gravity="center">
 
-        <!-- added padding, text color, and centered text! -->
+        <!-- added padding, text color, and centered text -->
         <TextView
             android:id="@+id/story_text"
             android:layout_width="match_parent"
