@@ -3,32 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/top_button_row"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_margin="16dp"
-        android:orientation="horizontal"
-        android:gravity="end">
-
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/button_save2"
-            android:scaleType="centerInside"/>
-        <!-- not sure which page this would go to -->
-
-        <Button
-            android:id="@+id/home_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/button_home2"
-            android:scaleType="centerInside"
-            android:layout_marginStart="6dp"/>
-    </LinearLayout>
-
+    <!-- Background at the very bottom -->
     <ImageView
         android:id="@+id/story_background"
         android:layout_width="match_parent"
@@ -36,6 +11,7 @@
         android:scaleType="centerCrop"
         android:contentDescription="@string/start_game"/>
 
+    <!-- Story text and choices -->
     <LinearLayout
         android:id="@+id/story_layout"
         android:layout_width="match_parent"
@@ -76,5 +52,31 @@
             android:textSize="18sp"
             android:padding="10dp"
             android:background="@drawable/button_purple_rounded"/>
+    </LinearLayout>
+
+    <!-- Top-right buttons moved LAST so they stay on top -->
+    <LinearLayout
+        android:id="@+id/top_button_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button_save2"
+            android:scaleType="centerInside"/>
+
+        <Button
+            android:id="@+id/home_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button_home2"
+            android:scaleType="centerInside"
+            android:layout_marginStart="6dp"/>
     </LinearLayout>
 </FrameLayout>

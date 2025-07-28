@@ -82,7 +82,7 @@ public class StoryActivity extends AppCompatActivity {
         choice2 = findViewById(R.id.choice2_button);
         backgroundImage = findViewById(R.id.story_background);
         saveButton = findViewById(R.id.save_button);
-        homeButton = findViewById(R.id.home_button); // <-- New
+        homeButton = findViewById(R.id.home_button);
 
         // Load story
         loadStory();
