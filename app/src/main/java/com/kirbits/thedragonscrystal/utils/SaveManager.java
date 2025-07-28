@@ -22,33 +22,45 @@ public class SaveManager {
     private static final String[] SLOT_FILENAMES = {"save_slot1.json", "save_slot2.json", "save_slot3.json"};
     private static final String AUTOSAVE_FILENAME = "autosave.json";
 
-    // Save the game to a file
-    public static void saveGame(Context context, SaveData data, int slot) {
+    public static void saveGame(Context context, SaveData newData, int slot) {
         try {
-            // Load existing save first (if any)
-            SaveData existing = loadGame(context, slot);
-            if (existing != null) {
-                // Merge globally unlocked pages
-                Set<Integer> mergedUnlocked = new HashSet<>();
-                if (existing.getGloballyUnlockedPages() != null)
-                    mergedUnlocked.addAll(existing.getGloballyUnlockedPages());
-                if (data.getGloballyUnlockedPages() != null)
-                    mergedUnlocked.addAll(data.getGloballyUnlockedPages());
-                data.setGloballyUnlockedPages(mergedUnlocked);
-            }
-
-            // Save to file
             File file = (slot == 0)
                     ? new File(context.getFilesDir(), AUTOSAVE_FILENAME)
                     : new File(context.getFilesDir(), SLOT_FILENAMES[slot - 1]);
+
+            Gson gson = new Gson();
+
+            // Merge with existing save
+            if (file.exists()) {
+                SaveData existingData = gson.fromJson(new FileReader(file), SaveData.class);
+
+                if (existingData.getGloballyUnlockedPages() != null) {
+                    newData.getGloballyUnlockedPages().addAll(existingData.getGloballyUnlockedPages());
+                }
+                if (existingData.getUnlockedEndings() != null) {
+                    newData.getUnlockedEndings().addAll(existingData.getUnlockedEndings());
+                }
+            }
+
+            // Always add visited pages to global
+            newData.getGloballyUnlockedPages().addAll(newData.getVisitedPageIds());
+
+            // --- DEBUG LOG ---
+            Log.d("SaveDebug", "Saving to slot " + slot);
+            Log.d("SaveDebug", "Current page: " + newData.getCurrentPageId());
+            Log.d("SaveDebug", "Visited pages: " + newData.getVisitedPageIds());
+            Log.d("SaveDebug", "Globally unlocked: " + newData.getGloballyUnlockedPages());
+            Log.d("SaveDebug", "Unlocked endings: " + newData.getUnlockedEndings());
+
             FileWriter writer = new FileWriter(file);
-            new Gson().toJson(data, writer);
+            gson.toJson(newData, writer);
             writer.close();
             Log.d(TAG, "Game saved successfully to " + (slot == 0 ? "Auto-Save" : "slot " + slot));
         } catch (Exception e) {
             Log.e(TAG, "Error saving game", e);
         }
     }
+
 
 
 

@@ -172,37 +172,68 @@ public class StoryActivity extends AppCompatActivity {
     }
 
 
+    /** Helper: Check if this page is a final ending (no further choices) */
+    private boolean isFinalPage(Page page) {
+        return page.getChoice1Target() == null && page.getChoice2Target() == null;
+    }
 
-    /** Move to the selected page, updating save state */
+    /** Move to selected page and save **/
     private void goToPage(int targetId) {
         visitedPages.add(targetId);
         currPageId = targetId;
 
         Page page = pageMap.get(targetId);
+        if (page == null) {
+            Log.e("StoryActivity", "Invalid page target: " + targetId);
+            return;
+        }
 
-        if (page != null && page.isDeath()) {
+        // === Determine if this is a death page or a true ending ===
+        boolean isPageDeath = page.isDeath();
+        boolean isTrueEnding = !isPageDeath && page.getChoice1Target() == null && page.getChoice2Target() == null;
+
+        if (isPageDeath) {
             isDead = true;
-            unlockedEndings.add("Ending: " + page.getId());
+            Log.d("SaveDebug", "Reached death page: " + page.getId());
 
-            // Save progress immediately
+            if (isTrueEnding) {
+                unlockedEndings.add("Ending: " + page.getId());
+                Log.d("SaveDebug", "Unlocked true ending (death page also final): Ending: " + page.getId());
+            }
+
+            // Save immediately (death progress)
             SaveData autoSave = new SaveData();
             autoSave.setCurrentPageId(currPageId);
-            autoSave.setVisitedPageIds(visitedPages);
-            autoSave.setUnlockedEndings(unlockedEndings);
+            autoSave.setVisitedPageIds(new ArrayList<>(visitedPages));
+            autoSave.setUnlockedEndings(new HashSet<>(unlockedEndings));
+            autoSave.setGloballyUnlockedPages(new HashSet<>(visitedPages));
             autoSave.setDead(isDead);
             SaveManager.saveGame(this, autoSave, AUTO_SAVE_SLOT);
 
+            // Show death dialog after showing the death page text
+            displayPage(currPageId);
+            return;
         }
 
-        // Save normally if not dead
+        // === If it's a true ending (non-death final page), unlock it ===
+        if (isTrueEnding) {
+            if (!unlockedEndings.contains("Ending: " + page.getId())) {
+                unlockedEndings.add("Ending: " + page.getId());
+                Log.d("SaveDebug", "Unlocked new ending: Ending: " + page.getId());
+            }
+        }
+
+        // === Save normal progress ===
         SaveData autoSave = new SaveData();
         autoSave.setCurrentPageId(currPageId);
-        autoSave.setVisitedPageIds(visitedPages);
-        autoSave.setUnlockedEndings(unlockedEndings);
+        autoSave.setVisitedPageIds(new ArrayList<>(visitedPages));
+        autoSave.setUnlockedEndings(new HashSet<>(unlockedEndings));
+        autoSave.setGloballyUnlockedPages(new HashSet<>(visitedPages));
         autoSave.setDead(isDead);
         SaveManager.saveGame(this, autoSave, AUTO_SAVE_SLOT);
-        Log.d("StoryActivity", "Auto-saved to slot " + slotId);
+        Log.d("SaveDebug", "Auto-saved to slot " + slotId + " | Page: " + currPageId);
 
+        // Finally, show the new page
         displayPage(targetId);
     }
 
@@ -243,17 +274,8 @@ public class StoryActivity extends AppCompatActivity {
                 .setTitle("You Died!")
                 .setMessage("Would you like to restart and keep your unlocked paths?")
                 .setPositiveButton("Restart", (dialog, which) -> {
-                    isDead = false;
-                    currPageId = 0;
-                    visitedPages.clear();
-                    // Save with meta-progression intact
-                    SaveData saveData = new SaveData();
-                    saveData.setCurrentPageId(currPageId);
-                    saveData.setVisitedPageIds(visitedPages);
-                    saveData.setUnlockedEndings(unlockedEndings);
-                    saveData.setDead(false);
-                    SaveManager.saveGame(this, saveData, AUTO_SAVE_SLOT);
-                    displayPage(currPageId);
+                    // Prompt for manual save slot before restart
+                    showSaveSlotDialogForRestart();
                 })
                 .setNegativeButton("Main Menu", (dialog, which) -> {
                     startActivity(new Intent(this, MainMenuActivity.class));
@@ -263,5 +285,33 @@ public class StoryActivity extends AppCompatActivity {
                 .show();
     }
 
+    /** Show popup to select a slot for meta-progression on restart */
+    private void showSaveSlotDialogForRestart() {
+        String[] slotOptions = {"Slot 1", "Slot 2", "Slot 3"};
 
+        new AlertDialog.Builder(this)
+                .setTitle("Choose Save Slot for Progress")
+                .setItems(slotOptions, (dialog, which) -> {
+                    int chosenSlot = which + 1;
+
+                    // Prepare save data
+                    SaveData metaSave = new SaveData();
+                    metaSave.setCurrentPageId(0); // restart at beginning
+                    metaSave.setVisitedPageIds(new ArrayList<>()); // clear session
+                    metaSave.setUnlockedEndings(unlockedEndings);
+                    metaSave.setGloballyUnlockedPages(new HashSet<>(visitedPages)); // persist unlocked paths
+                    metaSave.setDead(false);
+
+                    SaveManager.saveGame(this, metaSave, chosenSlot);
+                    Log.d("SaveDebug", "Restart progress saved to slot " + chosenSlot);
+
+                    // Reset state and restart story
+                    isDead = false;
+                    currPageId = 0;
+                    visitedPages.clear();
+                    displayPage(currPageId);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
 }

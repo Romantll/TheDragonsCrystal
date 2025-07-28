@@ -20,6 +20,7 @@ import com.kirbits.thedragonscrystal.views.FlowChartView;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,9 +32,9 @@ public class EndingsActivity extends AppCompatActivity {
     private FlowChartView flowChartView;
     private TextView noDataText;
 
-    // Spacing for tree layout
-    private static final int X_SPACING = 400;  // More horizontal spread
-    private static final int Y_SPACING = 300;
+    // Spacing constants for layout
+    private static final int X_SPACING = 300;
+    private static final int Y_SPACING = 250;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,9 +42,9 @@ public class EndingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_endings);
 
         flowChartView = findViewById(R.id.flow_chart_view);
-        noDataText = findViewById(R.id.no_data_text);
+        noDataText     = findViewById(R.id.no_data_text);
 
-        // Load save data (slot 1 for now)
+        // Load manual slot 1 for now
         SaveData saveData = SaveManager.loadGame(this, 1);
         if (saveData == null) {
             noDataText.setVisibility(View.VISIBLE);
@@ -51,84 +52,107 @@ public class EndingsActivity extends AppCompatActivity {
             return;
         }
 
-        // Build and layout nodes
+        // Build & lay out only the subgraph the player has discovered
         List<FlowNode> nodes = buildFlowNodes(saveData);
 
-        // Display in custom view
         flowChartView.setNodes(nodes);
         flowChartView.invalidate();
     }
 
-    /** Load story.json into a List<Page> */
+    /** Load story.json from assets into a List<Page> */
     private List<Page> loadStoryPages() {
         try {
-            InputStream inputStream = getAssets().open("story.json");
-            InputStreamReader reader = new InputStreamReader(inputStream);
-            return new Gson().fromJson(reader, new TypeToken<List<Page>>() {}.getType());
+            InputStream in = getAssets().open("story.json");
+            InputStreamReader reader = new InputStreamReader(in);
+            return new Gson().fromJson(
+                    reader,
+                    new TypeToken<List<Page>>(){}.getType()
+            );
         } catch (Exception e) {
             Log.e("EndingsActivity", "Error loading story JSON", e);
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 
-    /** Build nodes from SaveData + JSON connections */
+    /**
+     * Build exactly the subgraph the player has discovered so far,
+     * plus immediate “?” placeholders for any children of visited pages.
+     */
     private List<FlowNode> buildFlowNodes(SaveData saveData) {
-        List<FlowNode> nodes = new ArrayList<>();
-        Map<Integer, FlowNode> nodeMap = new HashMap<>();
+        List<Page> allPages = loadStoryPages();
+        Map<Integer, Page> pageMap = new HashMap<>();
+        for (Page p : allPages) pageMap.put(p.getId(), p);
 
-        // Load story pages
-        List<Page> pages = loadStoryPages();
+        // per‑run visited pages
         Set<Integer> visited = new HashSet<>(saveData.getVisitedPageIds());
+        // global progression across all runs
+        Set<Integer> global = saveData.getGloballyUnlockedPages();
+        if (global == null) global = Collections.emptySet();
+        // endings you’ve truly unlocked
         Set<String> endings = saveData.getUnlockedEndings();
-        Set<Integer> globallyUnlocked = saveData.getGloballyUnlockedPages();
-        if (globallyUnlocked == null) globallyUnlocked = new HashSet<>();
 
-        // Step 1: Include globally unlocked pages + endings/deaths (always visible once reached)
-        for (Page page : pages) {
-            boolean isEnding = endings.contains("Ending: " + page.getId());
-            boolean isDeath = page.isDeath();
-            boolean includeNode = globallyUnlocked.contains(page.getId()) || isEnding || isDeath;
+        // determine which pages to show: always anything global or visited
+        Set<Integer> visible = new HashSet<>(global);
+        visible.addAll(visited);
 
-            if (!includeNode) continue; // Skip fully locked pages
+        // add direct children for placeholders
+        for (int pid : new ArrayList<>(visible)) {
+            Page parent = pageMap.get(pid);
+            if (parent == null) continue;
+            Integer c1 = parent.getChoice1Target();
+            Integer c2 = parent.getChoice2Target();
+            if (c1 != null) visible.add(c1);
+            if (c2 != null) visible.add(c2);
+        }
 
-            boolean isVisited = visited.contains(page.getId());
+        // build FlowNode objects only for those visible IDs
+        Map<Integer,FlowNode> nodeMap = new HashMap<>();
+        List<FlowNode> nodes = new ArrayList<>();
+        for (int pid : visible) {
+            Page page = pageMap.get(pid);
+            boolean isEnding  = endings.contains("Ending: " + pid);
+            boolean isDeath   = page != null && page.isDeath();
+            //show as visited if either visited this run or in global progression
+            boolean isVisited = visited.contains(pid) || global.contains(pid);
 
-            FlowNode node = new FlowNode(page.getId(), 0, 0, isVisited, isEnding);
+            FlowNode node = new FlowNode(pid, 0, 0, isVisited, isEnding);
             node.setDeath(isDeath);
-
             node.setChildren(new ArrayList<>());
+            nodeMap.put(pid, node);
             nodes.add(node);
-            nodeMap.put(page.getId(), node);
         }
 
-        // Step 2: Add connections (only to children that are also unlocked/visible)
-        for (Page page : pages) {
-            if (!nodeMap.containsKey(page.getId())) continue;
-            FlowNode parentNode = nodeMap.get(page.getId());
-
-            if (page.getChoice1Target() != null && nodeMap.containsKey(page.getChoice1Target())) {
-                parentNode.getChildren().add(page.getChoice1Target());
-            }
-            if (page.getChoice2Target() != null && nodeMap.containsKey(page.getChoice2Target())) {
-                parentNode.getChildren().add(page.getChoice2Target());
-            }
+        // wire up edges only to visible children
+        for (FlowNode n : nodes) {
+            Page p = pageMap.get(n.getId());
+            if (p == null) continue;
+            Integer t1 = p.getChoice1Target();
+            Integer t2 = p.getChoice2Target();
+            if (t1 != null && nodeMap.containsKey(t1)) n.getChildren().add(t1);
+            if (t2 != null && nodeMap.containsKey(t2)) n.getChildren().add(t2);
         }
 
-        // Step 3: Assign coordinates
-        Set<Integer> visitedNodes = new HashSet<>();
+        // run your existing layout routine over the resulting subgraph
+        Set<Integer> done = new HashSet<>();
         int offset = 0;
-        for (Integer nodeId : nodeMap.keySet()) {
-            if (!visitedNodes.contains(nodeId)) {
-                offset = assignCoordinates(nodeMap, nodeId, 0, offset, visitedNodes);
+        for (Integer root : global) {
+            if (!done.contains(root)) {
+                offset = assignCoordinates(nodeMap, root, 0, offset, done);
             }
         }
 
         return nodes;
     }
 
-
-    /** Recursive tree layout with horizontal main path */
-    private int assignCoordinates(Map<Integer, FlowNode> nodeMap, int nodeId, int depth, int offset, Set<Integer> visited) {
+    /**
+     * Recursive tree‐layout: horizontal main path, branches below.
+     * Returns the next “y‐offset” after laying out this subtree.
+     */
+    private int assignCoordinates(Map<Integer, FlowNode> nodeMap,
+                                  int nodeId,
+                                  int depth,
+                                  int offset,
+                                  Set<Integer> visited) {
         if (visited.contains(nodeId)) return offset;
         visited.add(nodeId);
 
@@ -141,39 +165,32 @@ public class EndingsActivity extends AppCompatActivity {
         // Death nodes slightly above their branch
         if (node.isDeath()) currentY -= Y_SPACING / 2;
 
-        // Assign coordinates
         node.setX(depth * X_SPACING);
         node.setY(currentY);
 
-        if (children.isEmpty()) return offset + 1;
+        if (children.isEmpty()) {
+            return offset + 1;
+        }
 
-        // Sort children to make branching consistent
+        // ensure stable order
         children.sort(Integer::compareTo);
 
-        // Main path inline
+        // main path inline
         Integer mainChild = children.get(0);
         assignCoordinates(nodeMap, mainChild, depth + 1, offset, visited);
 
-        // For branches: pull them closer in X so edges are shorter (less crossing)
+        // branches below
         int branchOffset = offset + 1;
         for (int i = 1; i < children.size(); i++) {
-            int childDepth = depth + 1;
-
-            // Bring side branches slightly closer than the main path
-            int adjustedXSpacing = (int) (X_SPACING * 0.7);  // 70% of normal spacing
-            FlowNode childNode = nodeMap.get(children.get(i));
-            if (childNode != null) {
-                childNode.setX(node.getX() + adjustedXSpacing);
-            }
-
-            branchOffset = assignCoordinates(nodeMap, children.get(i), childDepth, branchOffset, visited);
+            branchOffset = assignCoordinates(
+                    nodeMap,
+                    children.get(i),
+                    depth + 1,
+                    branchOffset,
+                    visited
+            );
         }
 
         return branchOffset;
     }
-
-
-
-
-
 }
