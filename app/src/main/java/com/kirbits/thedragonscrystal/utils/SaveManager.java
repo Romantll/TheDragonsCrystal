@@ -62,9 +62,6 @@ public class SaveManager {
     }
 
 
-
-
-
     //Auto Save
     public static void saveAuto(Context context, SaveData data) {
         try {
@@ -124,4 +121,17 @@ public class SaveManager {
         }
     }
 
+    // Delete the auto-save file
+    public static void clearAutoSave(Context context) {
+        File file = new File(context.getFilesDir(), AUTOSAVE_FILENAME);
+        if (file.exists()) {
+            if (!file.delete()) {
+                Log.w(TAG, "Failed to delete auto-save file: " + file.getName());
+            } else {
+                Log.d(TAG, "Deleted auto-save file: " + file.getName());
+            }
+        } else {
+            Log.d(TAG, "No auto-save file found to delete.");
+        }
+    }
 }

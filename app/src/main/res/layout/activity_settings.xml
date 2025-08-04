@@ -10,7 +10,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="-1dp"
         android:layout_marginTop="1dp"
-        android:contentDescription="@string/settings_background"
         android:scaleType="centerCrop"
         android:src="@drawable/basic_background" />
 
