@@ -2,17 +2,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Background image -->
     <ImageView
         android:id="@+id/settings_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/basic_background"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="1dp"
+        android:contentDescription="@string/settings_background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/basic_background" />
 
-    <!-- Reset Progress Button -->
+    <ImageButton
+        android:id="@+id/home_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="31dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/home_button"
+        android:scaleType="centerInside"
+        android:src="@drawable/button_home2" />
+
     <Button
         android:id="@+id/reset_progress_button"
         android:layout_width="269dp"
