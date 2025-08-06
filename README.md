@@ -13,12 +13,9 @@
         - [From Android Studio](#from-android-studio)
         - [From CLI & Sideload](#from-cli--sideload)
 6. [Usage](#usage)
-7. [Known Issues & Roadmap](#known-issues-roadmap)
+7. [Known Issues & Roadmap](#known-issues--roadmap)
 
 ## 🌟 Overview
-…
-
-2. [About](#about-the-dragons-crystal)
 
 **The Dragon’s Crystal** Embark on an adventure, appointed by the King of a medieval fantasy world, to take back the Queen’s precious gem in this fantasy choose your own adventure game. Make your own choices to see where your adventure leads you. Will you find the gem and return it, or will your adventure have something different in store? Use the save button to save your progress, so that you can return to that point at any time. Try to find all the endings and use the endings screen to keep track of them. Boundless entertainment awaits!
 
@@ -100,12 +97,22 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Known Issues & Roadmap
 
-- **Endings view** currently only reads slot 1
+- **Endings view** currently only reads slot 1 and does not reset unless save file 1 is deleted
 - **Flowchart** edge‐routing could be improved (no intersections)
 - **Planned:**
     - Add Portuguese localization
     - More story branches / DLC
     - Unit & UI tests  
+
+## Proof and Complexity Analysis
+
+[Proof for Math folks](Docs/TheDragonsCrystal.pdf)
+
+## Authors
+* Roman Rendon
+* Hayli Kless
+* Cory Brannan
+* Matthew Teixeira 
 
     
 
