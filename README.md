@@ -14,6 +14,8 @@
         - [From CLI & Sideload](#from-cli--sideload)
 6. [Usage](#usage)
 7. [Known Issues & Roadmap](#known-issues--roadmap)
+8. [Proof and Complexity Analysis](#proof-and-complexity-analysis)
+9. [Authors](#authors)
 
 ## 🌟 Overview
 
