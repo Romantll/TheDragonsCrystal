@@ -1,8 +1,10 @@
 package com.kirbits.thedragonscrystal.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -29,9 +31,6 @@ import java.util.Set;
 
 public class EndingsActivity extends AppCompatActivity {
 
-    private FlowChartView flowChartView;
-    private TextView noDataText;
-
     // Spacing constants for layout
     private static final int X_SPACING = 300;
     private static final int Y_SPACING = 250;
@@ -41,8 +40,15 @@ public class EndingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_endings);
 
-        flowChartView = findViewById(R.id.flow_chart_view);
-        noDataText     = findViewById(R.id.no_data_text);
+        FlowChartView flowChartView = findViewById(R.id.flow_chart_view);
+        TextView noDataText = findViewById(R.id.no_data_text);
+        Button goHome = findViewById(R.id.home_button);
+
+        //Home Button
+        goHome.setOnClickListener(v -> {
+            startActivity(new Intent(this, MainMenuActivity.class));
+            finish();
+        });
 
         // Load correct slot (default to 1 if none provided)
         int slot = getIntent().getIntExtra("slot", 1);

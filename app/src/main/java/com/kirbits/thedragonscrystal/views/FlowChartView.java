@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.kirbits.thedragonscrystal.models.FlowNode;
@@ -45,7 +46,7 @@ public class FlowChartView extends View {
         scaleDetector = new ScaleGestureDetector(ctx,
                 new ScaleGestureDetector.SimpleOnScaleGestureListener() {
                     @Override
-                    public boolean onScale(ScaleGestureDetector detector) {
+                    public boolean onScale(@NonNull ScaleGestureDetector detector) {
                         scale *= detector.getScaleFactor();
                         scale = Math.max(0.3f, Math.min(scale, 3.0f));
                         invalidate();
@@ -94,7 +95,7 @@ public class FlowChartView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         if (nodes == null || nodes.isEmpty()) return;
 

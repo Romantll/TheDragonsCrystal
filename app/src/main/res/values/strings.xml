@@ -17,6 +17,8 @@
     <string name="home_button">Back to Main Menu</string>
     <string name="auto_save">Auto-Save - Page </string>
     <string name="auto_save_error">No Auto-Save Found</string>
+    <string name="reset_progress">Reset All Progress</string>
+
 
 
 
