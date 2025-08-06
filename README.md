@@ -27,8 +27,6 @@
 - **Global Meta-Progression**  
   Deaths and endings you’ve reached stay unlocked across play-throughs.
 
-- **Multiplatform Prototype**  
-  Fully sketched in Adobe XD for quick iteration and feedback.
 
 ## 📺 Demo
 
@@ -36,15 +34,37 @@
 
 ## 🚀 Getting Started
 
-### Prerequisites
+## Requirements
 
 - Android Studio Bumblebee or later
 - Android SDK Platform 30+
 - An Android device or emulator running Android 6.0+
 
-### Installation
+## Installation and Running
+
+### From Android Studio
 
 1. **Clone** the repo
    ```bash
    git clone https://github.com/yourorg/the-dragons-crystal.git
-   cd the-dragons-crystal
+   cd TheDragonsCrystal
+   ```
+2. **Open** in Android Studio
+3. **Run** on your device or emulator.
+    Studio will build a debug APK and deploy it automatically.
+
+### From CLI & Sideload
+
+1. Build and debug APK:
+    ```bash
+   cd TheDragonsCrystal
+   ./gradlew assembleDebug
+   ```
+2. **Install** on your connected device via ADB:
+ ```bash
+    adb install -r app/build/outputs/apk/debug/app-debug.apk
+ ```
+3. **Launch** the app from your device's app drawer.
+    
+
+
