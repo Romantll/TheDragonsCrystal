@@ -62,9 +62,22 @@
    ```
 2. **Install** on your connected device via ADB:
  ```bash
-    adb install -r app/build/outputs/apk/debug/app-debug.apk
+  adb install -r app/build/outputs/apk/debug/app-debug.apk
  ```
 3. **Launch** the app from your device's app drawer.
+> **Tip:** to create a signed release APK, use
+> `./gradlew assembleRelease` or  
+> **Build → Generate Signed Bundle / APK…** in Studio.
+
+## Usage
+
+1. **Start** your adventure at the Main Menu.
+2. **Make choices** on each page; use the **Save** button to pick slot 1–3.
+3. **If you die** or reach an ending, you’ll see a dialog offering to **restart** (preserving global progress) or return to the Main Menu.
+4. **View Endings** from the Main Menu to explore the flowchart.
+    - Discovered pages show their ID
+    - Undiscovered branches show “?”
+5. **Pinch-zoom** and **pan** to navigate large charts.
     
 
 
