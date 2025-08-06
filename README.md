@@ -3,20 +3,22 @@
 ![App Screenshot](Docs/screenshot.png)!
 
 ## 📑 Table of Contents
-1. [Overview](#🌟-overview)
-2. [Features](#🎮-features)
-3. [Demo](#📺-demo)
-4. [Getting Started](#🚀-getting-started)
+1. [Overview](#overview)
+2. [About](#about-the-dragons-crystal)
+3. [Features](#features)
+4. [Demo](#demo)
+5. [Getting Started](#getting-started)
     - [Requirements](#requirements)
     - [Installation and Running](#installation-and-running)
         - [From Android Studio](#from-android-studio)
         - [From CLI & Sideload](#from-cli--sideload)
-5. [Usage](#usage)
-6. [Known Issues & Roadmap](#🛠-known-issues--roadmap)
+6. [Usage](#usage)
+7. [Known Issues & Roadmap](#known-issues-roadmap)
 
 ## 🌟 Overview
 …
 
+2. [About](#about-the-dragons-crystal)
 
 **The Dragon’s Crystal** Embark on an adventure, appointed by the King of a medieval fantasy world, to take back the Queen’s precious gem in this fantasy choose your own adventure game. Make your own choices to see where your adventure leads you. Will you find the gem and return it, or will your adventure have something different in store? Use the save button to save your progress, so that you can return to that point at any time. Try to find all the endings and use the endings screen to keep track of them. Boundless entertainment awaits!
 
@@ -26,7 +28,10 @@
 - **Prototype:** Adobe XD
 - **Collaboration & Versioning:** GitHub, Discord, Google Docs
 
-## 🎮 Features
+## About The Dragons Crystal
+Its significance is to provide entertainment and alleviate boredom and users will gain a replenished sense of adventure. We wanted to have a choose your own adventure game in the palm of anyone's hands.
+
+## Features
 
 - **Branching Story Paths**  
   Choose from two options at each step to carve your personal narrative.
@@ -42,11 +47,11 @@
   Deaths and endings you’ve reached stay unlocked across play-throughs.
 
 
-## 📺 Demo
+## Demo
 
 [Watch the Project Demo →](https://www.youtube.com/watch?si=KybFcqEu4sY0MmNH&v=q5pOa39VVqs&feature=youtu.be)
 
-## 🚀 Getting Started
+## Getting Started
 
 ## Requirements
 
@@ -93,7 +98,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
     - Undiscovered branches show “?”
 5. **Pinch-zoom** and **pan** to navigate large charts.
 
-## 🛠 Known Issues & Roadmap
+## Known Issues & Roadmap
 
 - **Endings view** currently only reads slot 1
 - **Flowchart** edge‐routing could be improved (no intersections)
