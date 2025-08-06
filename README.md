@@ -17,7 +17,7 @@
 8. [Proof and Complexity Analysis](#proof-and-complexity-analysis)
 9. [Authors](#authors)
 
-## 🌟 Overview
+##  Overview
 
 **The Dragon’s Crystal** Embark on an adventure, appointed by the King of a medieval fantasy world, to take back the Queen’s precious gem in this fantasy choose your own adventure game. Make your own choices to see where your adventure leads you. Will you find the gem and return it, or will your adventure have something different in store? Use the save button to save your progress, so that you can return to that point at any time. Try to find all the endings and use the endings screen to keep track of them. Boundless entertainment awaits!
 
