@@ -221,14 +221,14 @@ public class StoryActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("Restart", (d, w) -> {
+                .setPositiveButton("Restart Game & Save", (d, w) -> {
                     isDead = false;
                     currPageId = 0;
                     // choose which slot to merge into
                     showSaveSlotDialogForRestart();
                     displayPage(currPageId);
                 })
-                .setNegativeButton("Main Menu", (d, w) -> {
+                .setNegativeButton("Return to Main Menu", (d, w) -> {
                     startActivity(new Intent(this, MainMenuActivity.class));
                     finish();
                 })

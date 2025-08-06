@@ -7,7 +7,7 @@
     <string name="choice_1">Choice 1</string>
     <string name="choice_2">Choice 2</string>
     <string name="slot_empty">Slot %1$d: Empty</string>
-    <string name="slot_continue">Slot %1$d: Continue (Page %2$d)</string>
+    <string name="slot_continue">Continue – Page %1$d</string>
     <string name="slot_dead_restart">Slot %1$d: Dead - Restart</string>
     <string name="save_success">Game saved to slot %1$d</string>
     <string name="load_slot_filled">Continue from Page %1$d</string>
@@ -18,7 +18,13 @@
     <string name="auto_save">Auto-Save - Page </string>
     <string name="auto_save_error">No Auto-Save Found</string>
     <string name="reset_progress">Reset All Progress</string>
-
+    <string name="delete_save_title">Delete Save?</string>
+    <string name="delete_save_msg">
+        Are you sure you want to delete save slot %1$d? This cannot be undone.
+    </string>
+    <string name="delete">Delete</string>
+    <string name="save_deleted">Save slot %1$d deleted.</string>
+    <string name="cancel">Cancel</string>
 
 
 

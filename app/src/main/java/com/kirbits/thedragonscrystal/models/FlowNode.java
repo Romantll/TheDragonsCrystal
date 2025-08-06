@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlowNode {
-    private int id;
+    private final int id;
     private int x, y;
     private boolean isVisited;
     private boolean isEnding;
