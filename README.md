@@ -1,8 +1,22 @@
 # The Dragon’s Crystal
 
-![App Screenshot](docs/screenshot.png)!
+![App Screenshot](Docs/screenshot.png)!
+
+## 📑 Table of Contents
+1. [Overview](#🌟-overview)
+2. [Features](#🎮-features)
+3. [Demo](#📺-demo)
+4. [Getting Started](#🚀-getting-started)
+    - [Requirements](#requirements)
+    - [Installation and Running](#installation-and-running)
+        - [From Android Studio](#from-android-studio)
+        - [From CLI & Sideload](#from-cli--sideload)
+5. [Usage](#usage)
+6. [Known Issues & Roadmap](#🛠-known-issues--roadmap)
 
 ## 🌟 Overview
+…
+
 
 **The Dragon’s Crystal** Embark on an adventure, appointed by the King of a medieval fantasy world, to take back the Queen’s precious gem in this fantasy choose your own adventure game. Make your own choices to see where your adventure leads you. Will you find the gem and return it, or will your adventure have something different in store? Use the save button to save your progress, so that you can return to that point at any time. Try to find all the endings and use the endings screen to keep track of them. Boundless entertainment awaits!
 
@@ -62,7 +76,7 @@
    ```
 2. **Install** on your connected device via ADB:
  ```bash
-  adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb install -r app/build/outputs/apk/debug/app-debug.apk
  ```
 3. **Launch** the app from your device's app drawer.
 > **Tip:** to create a signed release APK, use
@@ -73,11 +87,21 @@
 
 1. **Start** your adventure at the Main Menu.
 2. **Make choices** on each page; use the **Save** button to pick slot 1–3.
-3. **If you die** or reach an ending, you’ll see a dialog offering to **restart** (preserving global progress) or return to the Main Menu.
+3. **If you die** or reach an ending, you’ll see a dialog offering to **restart and save** (preserving global progress) or return to the Main Menu.
 4. **View Endings** from the Main Menu to explore the flowchart.
     - Discovered pages show their ID
     - Undiscovered branches show “?”
 5. **Pinch-zoom** and **pan** to navigate large charts.
+
+## 🛠 Known Issues & Roadmap
+
+- **Endings view** currently only reads slot 1
+- **Flowchart** edge‐routing could be improved (no intersections)
+- **Planned:**
+    - Add Portuguese localization
+    - More story branches / DLC
+    - Unit & UI tests  
+
     
 
 
