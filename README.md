@@ -2,6 +2,9 @@
 
 ![App Screenshot](Docs/screenshot.png)!
 
+<img width="575" height="1275" alt="75f421e1a9fedee37ceb71282c5f81be" src="https://github.com/user-attachments/assets/54e108b1-70a6-4e20-a2e8-661851dab8e3" />
+
+
 ## 📑 Table of Contents
 1. [Overview](#overview)
 2. [About](#about-the-dragons-crystal)
